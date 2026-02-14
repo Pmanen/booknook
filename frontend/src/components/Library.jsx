@@ -8,10 +8,10 @@ const Library = () => {
     <div>
       <h2>Library</h2>
       {books.map(book => (
-        <p key={book.id}>{book.author}, "{book.title}".</p>
+        <p key={book.id}>{book.author}, "{book.title}". ({book.genreTag})</p>
       ))}
       {articles.map(article => (
-        <p key={article.id}>{article.author}, "{article.title}".</p>
+        <p key={article.id}>{article.author} ({article.outlet}), "{article.title}". ({article.genreTag})</p>
       ))}
     </div>
   )
