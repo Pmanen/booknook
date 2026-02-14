@@ -4,6 +4,9 @@ const config = require('./utils/config')
 const morgan = require('morgan')
 const middleware = require('./utils/middleware')
 
+const booksRouter = require('./controllers/books')
+const articlesRouter = require('./controllers/articles')
+
 const app = express()
 
 app.use(express.json())
@@ -19,6 +22,10 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 mongoose.connect(config.MONGODB_URI, { family: 4 })
 
+app.use('/api/books', booksRouter)
+app.use('/api/articles', articlesRouter)
+
 app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 module.exports = app

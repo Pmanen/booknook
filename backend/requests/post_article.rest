@@ -1,0 +1,15 @@
+POST http://localhost:3003/api/articles
+Content-Type: application/json
+
+{
+  "title": "What are we all playing this weekend?",
+  "author": "Julian Benson",
+  "outlet": "Rock Paper Shotgun",
+  "url": "https://www.rockpapershotgun.com/what-are-we-all-playing-this-weekend-369",
+  "length": 3,
+  "datePublished": "2026-02-14",
+  "genreTag": 90
+}
+
+###
+GET http://localhost:3003/api/articles

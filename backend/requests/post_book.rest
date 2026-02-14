@@ -1,0 +1,13 @@
+POST http://localhost:3003/api/books
+Content-Type: application/json
+
+{
+  "title": "The Power Broker: Robert Moses and the Fall of New York",
+  "author": "Robert A. Caro",
+  "pages": 1246,
+  "yearPublished": 1974,
+  "genreTag": 50
+}
+
+###
+GET http://localhost:3003/api/books
