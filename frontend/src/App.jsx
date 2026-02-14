@@ -1,16 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Routes,
   Route,
+  Link
 } from 'react-router-dom'
 
+import Library from './components/Library'
+import { initializeBooks } from './reducers/bookReducer'
+import { initializeArticles } from './reducers/articleReducer'
+
 const App = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializeBooks())
+    dispatch(initializeArticles())
+  }, [dispatch])
+
   return (
     <div>
+      <div>
+        <Link to="/library">Library</Link>
+      </div>
       <h1>Book App!</h1>
 
       <Routes>
         <Route path="/" element={<h2>Real app</h2>} />
+        <Route path="/library" element={<Library />} />
       </Routes>
     </div>
   )
