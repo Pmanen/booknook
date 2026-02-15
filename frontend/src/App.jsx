@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import Library from './components/Library'
+import LogBook from './components/Logbook'
 import { initializeBooks } from './reducers/bookReducer'
 import { initializeArticles } from './reducers/articleReducer'
 
@@ -22,12 +23,14 @@ const App = () => {
     <div>
       <div>
         <Link to="/library">Library</Link>
+        <Link to="/log">Logbook</Link>
       </div>
       <h1>Book App!</h1>
 
       <Routes>
         <Route path="/" element={<h2>Real app</h2>} />
         <Route path="/library" element={<Library />} />
+        <Route path="/log" element={<LogBook />} />
       </Routes>
     </div>
   )

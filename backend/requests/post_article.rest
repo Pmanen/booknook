@@ -13,3 +13,17 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3003/api/articles
+
+###
+POST http://localhost:3003/api/articlelogs
+Content-Type: application/json
+
+{
+  "article": "69907988305d5d0761cfcc1f",
+  "notes": "good article!",
+  "favorite": false,
+  "readLength": 1
+}
+
+###
+GET http://localhost:3003/api/articlelogs

@@ -1,31 +1,35 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const config = require('./utils/config')
-const morgan = require('morgan')
-const middleware = require('./utils/middleware')
+const express = require('express');
+const mongoose = require('mongoose');
+const config = require('./utils/config');
+const morgan = require('morgan');
+const middleware = require('./utils/middleware');
 
-const booksRouter = require('./controllers/books')
-const articlesRouter = require('./controllers/articles')
+const booksRouter = require('./controllers/books');
+const articlesRouter = require('./controllers/articles');
+const articleLogsRouter = require('./controllers/articleLogs');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 morgan.token('body', function (req) {
   if (req.method === 'POST') {
-    return JSON.stringify(req.body)
+    return JSON.stringify(req.body);
   }
-  return ''
-})
+  return '';
+});
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
 
-mongoose.connect(config.MONGODB_URI, { family: 4 })
+mongoose.connect(config.MONGODB_URI, { family: 4 });
 
-app.use('/api/books', booksRouter)
-app.use('/api/articles', articlesRouter)
+app.use('/api/books', booksRouter);
+app.use('/api/articles', articlesRouter);
+app.use('/api/articlelogs', articleLogsRouter);
 
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
-module.exports = app
+module.exports = app;
