@@ -13,4 +13,13 @@ articlesRouter.post('/', async (request, response) => {
   response.status(201).json(savedArticle);
 });
 
+articlesRouter.delete('/:id', async (request, response) => {
+  const toDelete = await Article.findById(request.params.id);
+  if (!toDelete) {
+    return response.status(404).json({ error: 'article not found' });
+  }
+  await Article.findByIdAndDelete(request.params.id);
+  response.status(204).end();
+});
+
 module.exports = articlesRouter;

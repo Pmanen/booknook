@@ -10,6 +10,7 @@ import Library from './components/Library'
 import LogBook from './components/Logbook'
 import { initializeBooks } from './reducers/bookReducer'
 import { initializeArticles } from './reducers/articleReducer'
+import { initializeArticleLogs } from './reducers/articleLogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -17,6 +18,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBooks())
     dispatch(initializeArticles())
+    dispatch(initializeArticleLogs())
   }, [dispatch])
 
   return (

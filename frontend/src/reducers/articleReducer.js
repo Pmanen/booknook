@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import articleService from '../services/articles';
 import articleLogService from '../services/articleLogs';
+import { createArticleLog } from './articleLogReducer';
 
 const articleSlice = createSlice({
   name: 'articles',
@@ -46,7 +47,7 @@ export const appendArticle = (article, log) => {
         article: newArticle.id,
         readLength: newArticle.length,
       });
-      console.log(newLog);
+      dispatch(createArticleLog(newLog));
     } catch (e) {
       console.error(e);
     }

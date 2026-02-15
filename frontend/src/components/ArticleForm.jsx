@@ -20,19 +20,29 @@ const ArticleForm = () => {
     event.preventDefault()
 
     const newArticle = {
-      title: titleInput.value,
-      author: authorInput.value,
-      outlet: outletInput.value,
-      url: urlInput.value,
-      length: lengthInput.value,
-      datePublished: datePublishedInput.value,
-      genreTag: genreTagInput.value
+      title: titleInput.input.value,
+      author: authorInput.input.value,
+      outlet: outletInput.input.value,
+      url: urlInput.input.value,
+      length: lengthInput.input.value,
+      datePublished: datePublishedInput.input.value,
+      genreTag: genreTagInput.input.value
     }
     const newLog = {
       notes,
       isFavorite
     }
     dispatch(appendArticle(newArticle, newLog))
+
+    titleInput.reset()
+    authorInput.reset()
+    outletInput.reset()
+    urlInput.reset()
+    lengthInput.reset()
+    datePublishedInput.reset()
+    genreTagInput.reset()
+    setNotes('')
+    setIsFavorite(false)
   }
 
   return (
@@ -40,25 +50,25 @@ const ArticleForm = () => {
       <h2>Add article</h2>
       <form onSubmit={handleCreate}>
         title:
-        <input {...titleInput} />
+        <input {...titleInput.input} />
         <br />
         author:
-        <input {...authorInput} />
+        <input {...authorInput.input} />
         <br />
         outlet:
-        <input {...outletInput} />
+        <input {...outletInput.input} />
         <br />
         url:
-        <input {...urlInput} />
+        <input {...urlInput.input} />
         <br />
         date published:
-        <input {...datePublishedInput} />
+        <input {...datePublishedInput.input} />
         <br />
         length in minutes:
-        <input {...lengthInput} />
+        <input {...lengthInput.input} />
         <br />
         genre tag:
-        <input {...genreTagInput} />
+        <input {...genreTagInput.input} />
         <br />
         notes:
         <textarea 

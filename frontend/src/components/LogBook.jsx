@@ -2,14 +2,50 @@ import { useSelector } from 'react-redux'
 
 import ArticleForm from './ArticleForm'
 
+const groupByDate = (entries) => {
+  const groups = []
+  let currentDate = null
+
+  entries.forEach(entry => {
+    const dateOnly = new Date(entry.date).toISOString().split('T')[0]
+
+    if (dateOnly !== currentDate) {
+      currentDate = dateOnly
+      groups.push({ date: currentDate, entries: [] })
+    }
+    groups[groups.length -1].entries.push(entry)
+  })
+
+  return groups
+}
+
+const Entry = (props) => (
+  <div>
+    {props.article.author} {props.article.outlet && `(${props.article.outlet})`} - "<a href={props.article.url}>{props.article.title}</a>" [{props.article.genreTag}]
+    <p>Reading time: {props.readLength} minutes</p>
+    <p>Notes: {props.notes}</p>
+  </div>
+)
+
 const LogBook = () => {
-  const books = useSelector(state => state.books)
-  const articles = useSelector(state => state.articles)
+  const articleLogs = useSelector(state => state.articleLogs)
+
+  const sortedArticleLogs = articleLogs.slice().sort((a, b) => 
+    new Date(b.date) - new Date(a.date)
+  )
 
   return (
     <div>
       <h2>Reading Log</h2>
       <ArticleForm />
+      {groupByDate(sortedArticleLogs).map(group => (
+        <div key={group.date}>
+          <h3>{group.date}</h3>
+          {group.entries.map(entry => (
+            <Entry key={entry.id} {...entry} />
+          ))}
+        </div>
+      ))}
     </div>
   )
 }

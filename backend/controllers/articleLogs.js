@@ -1,4 +1,5 @@
 const articleLogsRouter = require('express').Router();
+const { request } = require('../app');
 const ArticleLog = require('../models/articleLog');
 
 articleLogsRouter.get('/', async (request, response) => {
@@ -28,6 +29,15 @@ articleLogsRouter.post('/', async (request, response) => {
     genreTag: 1,
   });
   response.status(201).json(savedArticleLog);
+});
+
+articleLogsRouter.delete('/:id', async (request, response) => {
+  const logToDelete = await ArticleLog.findById(request.params.id);
+  if (!logToDelete) {
+    return response.status(404).json({ error: 'log not found' });
+  }
+  await ArticleLog.findByIdAndDelete(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = articleLogsRouter;
