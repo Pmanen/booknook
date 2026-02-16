@@ -1,18 +1,18 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const bookSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   author: {
     type: String,
-    trim: true
+    trim: true,
   },
   dateAdded: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   pages: {
     type: Number,
@@ -20,8 +20,8 @@ const bookSchema = mongoose.Schema({
     min: 1,
     validate: {
       validator: Number.isInteger,
-      message: props => `${props.value} is not an integer`
-    }
+      message: props => `${props.value} is not an integer`,
+    },
   },
   yearPublished: {
     type: Number,
@@ -29,8 +29,8 @@ const bookSchema = mongoose.Schema({
     max: 2500,
     validate: {
       validator: Number.isInteger,
-      message: props => `${props.value} is not a valid year`
-    }
+      message: props => `${props.value} is not a valid year`,
+    },
   },
   genreTag: {
     type: Number,
@@ -38,17 +38,18 @@ const bookSchema = mongoose.Schema({
     max: 99,
     validate: {
       validator: Number.isInteger,
-      message: props => `${props.value} is not a valid genre tag between 0 and 99`
-    }
+      message: props =>
+        `${props.value} is not a valid genre tag between 0 and 99`,
+    },
   },
-})
+});
 
 bookSchema.set('toJSON', {
   transform: (_document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
-module.exports = mongoose.model('Book', bookSchema)
+module.exports = mongoose.model('Book', bookSchema);

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import CurrentlyReading from './CurrentlyReading'
 
 const Library = () => {
   const books = useSelector(state => state.books)
@@ -7,6 +8,7 @@ const Library = () => {
   return (
     <div>
       <h2>Library</h2>
+      <CurrentlyReading />
       {books.map(book => (
         <p key={book.id}>{book.author}, "{book.title}". ({book.genreTag})</p>
       ))}

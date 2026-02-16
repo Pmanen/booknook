@@ -11,6 +11,7 @@ import LogBook from './components/Logbook'
 import { initializeBooks } from './reducers/bookReducer'
 import { initializeArticles } from './reducers/articleReducer'
 import { initializeArticleLogs } from './reducers/articleLogReducer'
+import { initializeBookLogs } from './reducers/bookLogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const App = () => {
     dispatch(initializeBooks())
     dispatch(initializeArticles())
     dispatch(initializeArticleLogs())
+    dispatch(initializeBookLogs())
   }, [dispatch])
 
   return (

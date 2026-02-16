@@ -7,6 +7,7 @@ const middleware = require('./utils/middleware');
 const booksRouter = require('./controllers/books');
 const articlesRouter = require('./controllers/articles');
 const articleLogsRouter = require('./controllers/articleLogs');
+const bookLogsRouter = require('./controllers/bookLogs');
 
 const app = express();
 
@@ -28,6 +29,7 @@ mongoose.connect(config.MONGODB_URI, { family: 4 });
 app.use('/api/books', booksRouter);
 app.use('/api/articles', articlesRouter);
 app.use('/api/articlelogs', articleLogsRouter);
+app.use('/api/booklogs', bookLogsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
