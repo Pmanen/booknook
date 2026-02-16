@@ -32,6 +32,7 @@ const BookStatusItem = ({ log }) => {
   const dispatch = useDispatch()
   const [visible, setVisible] = useState(false)
   const [updatePage, setUpdatePage] = useState(log.currentPage)
+  const [updatePercentage, setUpdatePercentage] = useState(Math.round(log.percentRead))
 
   const showWhenVisible = { display: visible ? '' : 'none' }
   const toggleVisibility = () => {
@@ -40,11 +41,38 @@ const BookStatusItem = ({ log }) => {
 
   const handleUpdate = async (event) => {
     event.preventDefault()
-    console.log(updatePage)
 
     const newLog = {
       book: log.book.id,
-      currentPage: Math.min(updatePage, log.book.pages)
+      currentPage: Math.min(updatePage, log.book.pages),
+      finished: (updatePage >= log.book.pages)
+    }
+    dispatch(appendBookLog(newLog))
+    setVisible(!visible)
+  }
+
+  const handlePercentageUpdate = async (event) => {
+    event.preventDefault()
+
+    if (Number(updatePercentage)) {
+      const newPage = Math.floor((log.book.pages * Math.floor(updatePercentage)) / 100)
+      const newLog = {
+        book: log.book.id,
+        currentPage: Math.min(newPage, log.book.pages),
+        finished: (newPage >= log.book.pages)
+      }
+      dispatch(appendBookLog(newLog))
+      setVisible(!visible)
+    }
+  }
+
+  const handleFinished = async (event) => {
+    event.preventDefault()
+
+    const newLog = {
+      book: log.book.id,
+      currentPage: log.book.pages,
+      finished: true
     }
     dispatch(appendBookLog(newLog))
     setVisible(!visible)
@@ -66,6 +94,16 @@ const BookStatusItem = ({ log }) => {
           </label>
           <button type="submit">Save</button>
         </form>
+        <form onSubmit={handlePercentageUpdate}>
+          <label>
+            %:
+           <input type="text" value={updatePercentage} 
+            onChange={({ target }) => setUpdatePercentage(target.value)}
+          /> 
+          </label>
+          <button type="submit">Save</button>
+        </form>
+        <button onClick={handleFinished}>Mark finished</button>
       </div>
     </div>
   )
