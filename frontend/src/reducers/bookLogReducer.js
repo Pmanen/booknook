@@ -21,7 +21,7 @@ const bookLogSlice = createSlice({
   },
 });
 
-const { setBookLogs } = bookLogSlice.actions;
+const { setBookLogs, createBookLog } = bookLogSlice.actions;
 
 export const initializeBookLogs = () => {
   return async dispatch => {
@@ -30,6 +30,15 @@ export const initializeBookLogs = () => {
   };
 };
 
-export const { createBookLog } = bookLogSlice.actions;
+export const appendBookLog = log => {
+  return async dispatch => {
+    try {
+      const newLog = await bookLogService.create(log);
+      dispatch(createBookLog(newLog));
+    } catch (e) {
+      console.error(e.response.data);
+    }
+  };
+};
 
 export default bookLogSlice.reducer;

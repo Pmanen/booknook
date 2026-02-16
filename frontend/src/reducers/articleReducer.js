@@ -41,7 +41,6 @@ export const appendArticle = (article, log) => {
     try {
       const newArticle = await articleService.create(article);
       dispatch(createArticle(article));
-      console.log('article created');
       const newLog = await articleLogService.create({
         ...log,
         article: newArticle.id,
@@ -49,7 +48,7 @@ export const appendArticle = (article, log) => {
       });
       dispatch(createArticleLog(newLog));
     } catch (e) {
-      console.error(e);
+      console.error(e.response.data);
     }
   };
 };

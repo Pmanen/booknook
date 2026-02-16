@@ -9,6 +9,7 @@ const Library = () => {
     <div>
       <h2>Library</h2>
       <CurrentlyReading />
+      <h3>All books</h3>
       {books.map(book => (
         <p key={book.id}>{book.author}, "{book.title}". ({book.genreTag})</p>
       ))}
