@@ -8,6 +8,7 @@ import {
 
 import Library from './components/Library'
 import LogBook from './components/Logbook'
+import StatsDisplay from './components/StatsDisplay'
 import { initializeBooks } from './reducers/bookReducer'
 import { initializeArticles } from './reducers/articleReducer'
 import { initializeArticleLogs } from './reducers/articleLogReducer'
@@ -28,11 +29,12 @@ const App = () => {
       <div>
         <Link to="/library">Library</Link>
         <Link to="/log">Logbook</Link>
+        <Link to="/">Stats</Link>
       </div>
       <h1>Book App!</h1>
 
       <Routes>
-        <Route path="/" element={<h2>Real app</h2>} />
+        <Route path="/" element={<StatsDisplay />} />
         <Route path="/library" element={<Library />} />
         <Route path="/log" element={<LogBook />} />
       </Routes>

@@ -2,11 +2,11 @@ POST http://localhost:3003/api/books
 Content-Type: application/json
 
 {
-  "title": "The Power Broker: Robert Moses and the Fall of New York",
-  "author": "Robert A. Caro",
-  "pages": 1246,
-  "yearPublished": 1974,
-  "genreTag": 50
+  "title": "The Romantic",
+  "author": "William Boyd",
+  "pages": 460,
+  "yearPublished": 2022,
+  "genreTag": 84
 }
 
 ###
@@ -17,8 +17,7 @@ POST http://localhost:3003/api/booklogs
 Content-Type: application/json
 
 {
-  "book": "699075b25a1825e951b9e8a8",
+  "book": "69939462595cbf801c77ce10",
   "date": "2025-01-01",
-  "readLength": "274",
-  "currentPage": "274"
+  "currentPage": "113"
 }

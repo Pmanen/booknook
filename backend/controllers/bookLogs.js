@@ -23,11 +23,9 @@ bookLogsRouter.post('/', async (request, response) => {
   if (bookLog.currentPage <= 0) {
     return response.status(400).json({ error: `page must be positive` });
   } else if (bookLog.readLength <= 0) {
-    return response
-      .status(400)
-      .json({
-        error: `current page ${bookLog.currentPage} must be larger than previously read page ${previousLog.currentPage}`,
-      });
+    return response.status(400).json({
+      error: `current page ${bookLog.currentPage} must be larger than previously read page ${previousLog.currentPage}`,
+    });
   }
 
   const savedBookLog = await bookLog.save();
