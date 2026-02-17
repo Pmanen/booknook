@@ -19,26 +19,43 @@ const groupByDate = (entries) => {
   return groups
 }
 
-const Entry = (props) => (
-  <div>
-    {props.article.author} {props.article.outlet && `(${props.article.outlet})`} - "<a href={props.article.url}>{props.article.title}</a>" [{props.article.genreTag}]
-    <p>Reading time: {props.readLength} minutes</p>
-    <p>Notes: {props.notes}</p>
-  </div>
-)
+const Entry = (props) => {
+  if (props.article) {
+    return (
+      <div>
+        {props.article.author} {props.article.outlet && `(${props.article.outlet})`} - "<a href={props.article.url}>{props.article.title}</a>" [{props.article.genreTag}]
+        <p>Reading time: {props.readLength} minutes</p>
+        {props.notes && <p>Notes: {props.notes}</p>}
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        {props.book.author} - "{props.book.title}" [{props.book.genreTag}]
+        <p>Pages read: {props.readLength}, current page: {props.currentPage}</p>
+        {props.notes && <p>Notes: {props.notes}</p>}
+      </div>
+    )
+  }
+}
+
+  
 
 const LogBook = () => {
   const articleLogs = useSelector(state => state.articleLogs)
+  const bookLogs = useSelector(state => state.bookLogs)
 
-  const sortedArticleLogs = articleLogs.slice().sort((a, b) => 
+  const sortedLogs = articleLogs.concat(bookLogs).slice().sort((a, b) => 
     new Date(b.date) - new Date(a.date)
   )
+
+
 
   return (
     <div>
       <h2>Reading Log</h2>
       <ArticleForm />
-      {groupByDate(sortedArticleLogs).map(group => (
+      {groupByDate(sortedLogs).map(group => (
         <div key={group.date}>
           <h3>{group.date}</h3>
           {group.entries.map(entry => (
