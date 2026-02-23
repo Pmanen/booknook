@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   Routes,
   Route,
-  Link
+  Link,
+  useLocation,
 } from 'react-router-dom'
 
+import './App.css'
 import Library from './components/Library'
 import LogBook from './components/Logbook'
 import StatsDisplay from './components/StatsDisplay'
@@ -16,6 +18,9 @@ import { initializeBookLogs } from './reducers/bookLogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
+
+  const isActive = (path) => location.pathname === path
 
   useEffect(() => {
     dispatch(initializeBooks())
@@ -25,13 +30,18 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div>
-      <div>
-        <Link to="/library">Library</Link>
-        <Link to="/log">Logbook</Link>
-        <Link to="/">Stats</Link>
+    <div className="bg-neutral-100 p-8">
+      <div className="flex justify-center items-center gap-4 h-8 mb-6 text-gray-700">
+        <Link to="/library" className={isActive('/library') ? 'underline' : 'hover:underline'}>
+          Library
+        </Link>
+        <Link to="/log" className={isActive('/log') ? 'underline' : 'hover:underline'}>
+          Logbook
+        </Link>
+        <Link to="/" className={isActive('/') ? 'underline' : 'hover:underline'}>
+          Stats
+        </Link>
       </div>
-      <h1>Book App!</h1>
 
       <Routes>
         <Route path="/" element={<StatsDisplay />} />

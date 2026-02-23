@@ -47,7 +47,6 @@ const ArticleForm = () => {
 
   return (
     <div>
-      <h2>Add article</h2>
       <form onSubmit={handleCreate}>
         title:
         <input {...titleInput.input} />
