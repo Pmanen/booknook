@@ -1,14 +1,14 @@
-import axios from 'axios'
-const baseUrl = '/api/books'
+import axios from 'axios';
+const baseUrl = '/api/books';
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+  const request = axios.get(baseUrl);
+  return request.then(response => response.data);
+};
 
 const create = async newObject => {
-  const response = await axios.post(baseUrl, newObject)
-  return response.data
-}
+  const response = await axios.post(baseUrl, newObject);
+  return response.data;
+};
 
-export default { getAll, create }
+export default { getAll, create };
