@@ -1,4 +1,10 @@
 GET http://localhost:3003/api/booklogs
 
 ###
-DELETE http://localhost:3003/api/booklogs/6993935e595cbf801c77ce00
+DELETE http://localhost:3003/api/booklogs/69938ea1595cbf801c77cddc
+
+###
+DELETE http://localhost:3003/api/booklogs/699229ded09cfcf8675adbf9
+
+###
+DELETE http://localhost:3003/api/booklogs/699391a4595cbf801c77cde8

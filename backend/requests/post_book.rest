@@ -2,11 +2,11 @@ POST http://localhost:3003/api/books
 Content-Type: application/json
 
 {
-  "title": "The Romantic",
-  "author": "William Boyd",
-  "pages": 460,
-  "yearPublished": 2022,
-  "genreTag": 84
+  "title": "The Well of Ascension",
+  "author": "Brandon Sanderson",
+  "pages": 781,
+  "yearPublished": 2007,
+  "genreTag": 82
 }
 
 ###
@@ -17,7 +17,10 @@ POST http://localhost:3003/api/booklogs
 Content-Type: application/json
 
 {
-  "book": "69939462595cbf801c77ce10",
+  "book": "69a822a5f4d724af63c8cc3d",
   "date": "2025-01-01",
-  "currentPage": "113"
+  "currentPage": "100"
 }
+
+###
+DELETE http://localhost:3003/api/books/699075b25a1825e951b9e8a8
