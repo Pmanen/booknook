@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
-import { FaBookOpen } from 'react-icons/fa';
-import { IoDocumentText } from "react-icons/io5";
-
+import { FiBook } from "react-icons/fi";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import CurrentlyReading from './CurrentlyReading';
 import '../App.css';
 
@@ -9,7 +8,7 @@ const LibraryEntry = props => {
   if (props.pages) {
     return (
       <li key={props.id} className="mb-1 p-1">
-        <FaBookOpen className="mr-1 inline align-middle text-sm text-black" /> 
+        <FiBook className="mr-1 inline align-middle text-sm text-black" /> 
         {props.author}, "{props.title}".
         <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
           {props.genreTag}
@@ -19,7 +18,7 @@ const LibraryEntry = props => {
   } else {
     return (
       <li key={props.id} className="mb-1 p-1">
-        <IoDocumentText className="mr-1 inline align-middle text-sm text-black" /> 
+        <IoDocumentTextOutline className="mr-1 inline align-middle text-sm text-black" /> 
         {props.author}
         {props.outlet && ` (${props.outlet})`}, "
         <a href={props.url} target="_blank" rel="noopener.noreferrer">

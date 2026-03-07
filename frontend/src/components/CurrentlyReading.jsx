@@ -84,40 +84,58 @@ const BookStatusItem = ({ log }) => {
   };
 
   return (
-    <div className="my-3 p-3 border rounded-lg bg-gray-50">
-      <h3 className="font-bold">{log.book.title}</h3>
-      <span className="text-sm italic">{log.book.author} • {log.book.yearPublished} • genre: {log.book.genreTag}</span>
-      <div className="my-1">
-        Page {log.currentPage} of {log.book.pages} (
-        {Math.round(log.percentRead)}%)
-        <span className="align-right">
-          <button onClick={toggleVisibility}><FaPencilAlt className="ml-1 inline align-middle text-sm text-red-800"/></button>
-        </span>
-        <div style={showWhenVisible}>
-          <form onSubmit={handleUpdate}>
-            <label>
-              <input className="mr-2 px-1 border rounded"
-                type="text"
-                value={updatePage}
-                onChange={({ target }) => setUpdatePage(target.value)}
-              />
-            </label>
-            <button type="submit">Update page</button>
-          </form>
-          <form onSubmit={handlePercentageUpdate}>
-            <label>
-              <input className="mr-2 px-1 border rounded"
-                type="text"
-                value={updatePercentage}
-                onChange={({ target }) => setUpdatePercentage(target.value)}
-              />
-            </label>
-            <button className="bg-red-900 hover:bg-red-800 text-white font-semibold px-4 rounded" type="submit">Update %</button>
-          </form>
-          <button onClick={handleFinished}>Mark finished</button>
-        </div> 
+    <div className="mx-auto max-w-150 my-4 px-5 py-4 border border-gray-200 shadow-sm rounded-lg bg-gray-50">
+      <h3 className="font-semibold">{log.book.title}</h3>
+      <p className="mt-0.5 text-sm italic text-gray-500">
+        {log.book.author} · {log.book.yearPublished} · {log.book.genreTag}
+      </p>
+
+      <div className="mt-3 flex items-center gap-2 text-sm text-gray-700">
+        <span>p. {log.currentPage} / {log.book.pages}</span>
+        <span className="text-gray-400">({Math.round(log.percentRead)}%)</span>
+        <button onClick={toggleVisibility}>
+          <FaPencilAlt className="ml-0.5 inline align-middle text-xs text-red-800 opacity-60 hover:opacity-100" />
+        </button>
       </div>
-      
+
+      <div style={showWhenVisible} className="mt-3">
+        <div className="flex items-center gap-5">
+          <form onSubmit={handleUpdate} className="flex items-center gap-1.5">
+            <label className="text-xs text-gray-400">page</label>
+            <input
+              className="w-16 rounded border border-gray-300 px-2 py-0.5 text-center text-sm"
+              type="text"
+              value={updatePage}
+              onChange={({ target }) => setUpdatePage(target.value)}
+            />
+            <button type="submit" className="text-xs text-gray-500 underline hover:text-gray-800">
+              update
+            </button>
+          </form>
+
+          <form onSubmit={handlePercentageUpdate} className="flex items-center gap-1.5">
+            <label className="text-xs text-gray-400">%</label>
+            <input
+              className="w-14 rounded border border-gray-300 px-2 py-0.5 text-center text-sm"
+              type="text"
+              value={updatePercentage}
+              onChange={({ target }) => setUpdatePercentage(target.value)}
+            />
+            <button type="submit" className="text-xs text-gray-500 underline hover:text-gray-800">
+              update
+            </button>
+          </form>
+        </div>
+
+        <div className="mt-3 border-t border-gray-200 pt-3">
+          <button
+            onClick={handleFinished}
+            className="rounded border border-red-800/40 px-3 py-1 text-xs tracking-wide text-red-800 hover:bg-red-800/5"
+          >
+            Mark finished
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

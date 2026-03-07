@@ -29,5 +29,9 @@ Content-Type: application/json
 GET http://localhost:3003/api/articlelogs
 
 ###
-DELETE http://localhost:3003/api/articlelogs/6993431aafeb22fd6def2ecd
+DELETE http://localhost:3003/api/articles/69aca1054d83bef4d086a138
+
+###
+DELETE http://localhost:3003/api/articles/69aca0ce4d83bef4d086a133
+
 

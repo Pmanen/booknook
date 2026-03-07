@@ -30,7 +30,7 @@ const ArticleForm = () => {
     };
     const newLog = {
       notes,
-      isFavorite,
+      favorite: isFavorite,
     };
     dispatch(appendArticle(newArticle, newLog));
 

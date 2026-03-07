@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { FaBookOpen } from 'react-icons/fa';
+import { FaBookOpen, FaStar } from 'react-icons/fa';
 
 import '../App.css';
 import ArticleForm from './ArticleForm';
@@ -50,6 +50,7 @@ const Entry = props => {
   if (props.article) {
     return (
       <div className="mb-3 p-1">
+        {props.favorite && <FaStar className="mr-1 inline align-middle text-sm text-yellow-500" />}
         {props.article.author}{' '}
         {props.article.outlet && `(${props.article.outlet})`} - "
         <a href={props.article.url} target="_blank" rel="noopener.noreferrer">
@@ -63,9 +64,9 @@ const Entry = props => {
           Reading time: {props.readLength} minutes
         </p>
         {props.notes && (
-          <p className="mx-3 mt-2 text-sm text-gray-900">
+          <div className="mx-3 mt-2 text-sm text-gray-900">
             <EntryNotes notes={props.notes} />
-          </p>
+          </div>
         )}
       </div>
     );
