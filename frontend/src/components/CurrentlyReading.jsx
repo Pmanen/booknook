@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { FaPencilAlt } from "react-icons/fa";
 import { appendBookLog } from '../reducers/bookLogReducer';
 
 const getRecentBooks = (bookLogs, count) => {
@@ -83,37 +84,40 @@ const BookStatusItem = ({ log }) => {
   };
 
   return (
-    <div>
-      {log.book.title}: page {log.currentPage} of {log.book.pages} (
-      {Math.round(log.percentRead)}%)
-      <span>
-        <button onClick={toggleVisibility}>Edit</button>
-      </span>
-      <div style={showWhenVisible}>
-        <form onSubmit={handleUpdate}>
-          <label>
-            page:
-            <input
-              type="text"
-              value={updatePage}
-              onChange={({ target }) => setUpdatePage(target.value)}
-            />
-          </label>
-          <button type="submit">Save</button>
-        </form>
-        <form onSubmit={handlePercentageUpdate}>
-          <label>
-            %:
-            <input
-              type="text"
-              value={updatePercentage}
-              onChange={({ target }) => setUpdatePercentage(target.value)}
-            />
-          </label>
-          <button type="submit">Save</button>
-        </form>
-        <button onClick={handleFinished}>Mark finished</button>
+    <div className="my-3 p-3 border rounded-lg bg-gray-50">
+      <h3 className="font-bold">{log.book.title}</h3>
+      <span className="text-sm italic">{log.book.author} • {log.book.yearPublished} • genre: {log.book.genreTag}</span>
+      <div className="my-1">
+        Page {log.currentPage} of {log.book.pages} (
+        {Math.round(log.percentRead)}%)
+        <span className="align-right">
+          <button onClick={toggleVisibility}><FaPencilAlt className="ml-1 inline align-middle text-sm text-red-800"/></button>
+        </span>
+        <div style={showWhenVisible}>
+          <form onSubmit={handleUpdate}>
+            <label>
+              <input className="mr-2 px-1 border rounded"
+                type="text"
+                value={updatePage}
+                onChange={({ target }) => setUpdatePage(target.value)}
+              />
+            </label>
+            <button type="submit">Update page</button>
+          </form>
+          <form onSubmit={handlePercentageUpdate}>
+            <label>
+              <input className="mr-2 px-1 border rounded"
+                type="text"
+                value={updatePercentage}
+                onChange={({ target }) => setUpdatePercentage(target.value)}
+              />
+            </label>
+            <button className="bg-red-900 hover:bg-red-800 text-white font-semibold px-4 rounded" type="submit">Update %</button>
+          </form>
+          <button onClick={handleFinished}>Mark finished</button>
+        </div> 
       </div>
+      
     </div>
   );
 };
@@ -127,7 +131,7 @@ const CurrentlyReading = () => {
 
   return (
     <div>
-      <h3>Currently reading</h3>
+      <h3 className="my-3 text-2xl text-center font-semibold text-amber-700">Currently reading</h3>
       {recentBooks.map(log => (
         <BookStatusItem key={log.id} log={log} />
       ))}

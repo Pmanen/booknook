@@ -1,18 +1,35 @@
 import { useSelector } from 'react-redux';
+import { FaBookOpen } from 'react-icons/fa';
+import { IoDocumentText } from "react-icons/io5";
+
 import CurrentlyReading from './CurrentlyReading';
+import '../App.css';
 
 const LibraryEntry = props => {
   if (props.pages) {
     return (
-      <p key={props.id}>
-        {props.author}, "{props.title}". ({props.genreTag})
-      </p>
+      <li key={props.id} className="mb-1 p-1">
+        <FaBookOpen className="mr-1 inline align-middle text-sm text-black" /> 
+        {props.author}, "{props.title}".
+        <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+          {props.genreTag}
+        </span>
+      </li>
     );
   } else {
     return (
-      <p key={props.id}>
-        {props.author} ({props.outlet}), "{props.title}". ({props.genreTag})
-      </p>
+      <li key={props.id} className="mb-1 p-1">
+        <IoDocumentText className="mr-1 inline align-middle text-sm text-black" /> 
+        {props.author}
+        {props.outlet && ` (${props.outlet})`}, "
+        <a href={props.url} target="_blank" rel="noopener.noreferrer">
+          {props.title}
+        </a>
+        ".
+        <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+          {props.genreTag}
+        </span>
+      </li>
     );
   }
 };
@@ -26,13 +43,19 @@ const Library = () => {
     .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
 
   return (
-    <div>
-      <h2>Library</h2>
+    <div className="mx-auto max-w-2xl">
+      <h2 className="my-6 text-center text-4xl font-semibold text-red-800">Library</h2>
       <CurrentlyReading />
-      <h3>All books and articles</h3>
-      {library.map(document => (
-        <LibraryEntry key={document.id} {...document} />
-      ))}
+      <div className="mt-6">
+        <h3 className="my-3 text-2xl text-center font-semibold text-amber-700">All books and articles</h3>
+        <ul>
+                 {library.map(document => (
+          <LibraryEntry key={document.id} {...document} />
+        ))}  
+        </ul>
+
+      </div>
+
     </div>
   );
 };
