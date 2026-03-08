@@ -4,6 +4,8 @@ const config = require('./utils/config');
 const morgan = require('morgan');
 const middleware = require('./utils/middleware');
 
+const usersRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
 const booksRouter = require('./controllers/books');
 const articlesRouter = require('./controllers/articles');
 const articleLogsRouter = require('./controllers/articleLogs');
@@ -26,6 +28,8 @@ app.use(
 
 mongoose.connect(config.MONGODB_URI, { family: 4 });
 
+app.use('/api/users', usersRouter);
+app.use('/api/login', loginRouter);
 app.use('/api/books', booksRouter);
 app.use('/api/articles', articlesRouter);
 app.use('/api/articlelogs', articleLogsRouter);
