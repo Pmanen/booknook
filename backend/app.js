@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const config = require('./utils/config');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const middleware = require('./utils/middleware');
 
 const usersRouter = require('./controllers/users');
@@ -15,6 +16,8 @@ const bookLogsRouter = require('./controllers/bookLogs');
 const app = express();
 
 app.use(express.json());
+
+app.use(helmet());
 
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms')

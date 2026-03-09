@@ -24,11 +24,13 @@ const App = () => {
   const isActive = path => location.pathname === path;
 
   useEffect(() => {
-    dispatch(initializeBooks());
-    dispatch(initializeArticles());
-    dispatch(initializeArticleLogs());
-    dispatch(initializeBookLogs());
-  }, [dispatch]);
+    if (user) {
+      dispatch(initializeBooks());
+      dispatch(initializeArticles());
+      dispatch(initializeArticleLogs());
+      dispatch(initializeBookLogs()); 
+    }
+  }, [user]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBooknookUser');
@@ -59,37 +61,45 @@ const App = () => {
     dispatch(resetUser())
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>
-          username
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password
-          <input
-            type="text"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  );
+  const fieldClass =
+    'w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:border-red-800 focus:outline-none';
+  const labelClass =
+    'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
 
   if (!user) {
     return (
-      <div className="bg-neutral-100 p-8">
-        <h2 className="mb-4 text-2xl font-bold text-gray-700">Login</h2>
-        {loginForm()}
+      <div className="flex min-h-screen items-center justify-center bg-neutral-100">
+        <div className="w-80 rounded border border-gray-200 bg-neutral-50 p-8">
+          <h2 className="mb-6 text-center text-3xl font-semibold text-red-800">Booknook</h2>
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+            <div>
+              <label className={labelClass}>Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={({ target }) => setUsername(target.value)}
+                className={fieldClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+                className={fieldClass}
+              />
+            </div>
+            <div className="flex justify-end pt-1">
+              <button
+                type="submit"
+                className="rounded border-2 border-red-800 bg-neutral-50 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
@@ -117,7 +127,7 @@ const App = () => {
         </Link>
         <button
           onClick={logout}
-          className="ml-auto rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+          className="rounded hover:underline"
         >
           Logout
         </button>
