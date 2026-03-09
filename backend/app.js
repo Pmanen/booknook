@@ -28,12 +28,13 @@ app.use(
 
 mongoose.connect(config.MONGODB_URI, { family: 4 });
 
+app.use(middleware.tokenExtractor);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/books', booksRouter);
-app.use('/api/articles', articlesRouter);
-app.use('/api/articlelogs', articleLogsRouter);
-app.use('/api/booklogs', bookLogsRouter);
+app.use('/api/books', middleware.userExtractor, booksRouter);
+app.use('/api/articles', middleware.userExtractor, articlesRouter);
+app.use('/api/articlelogs', middleware.userExtractor, articleLogsRouter);
+app.use('/api/booklogs', middleware.userExtractor, bookLogsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

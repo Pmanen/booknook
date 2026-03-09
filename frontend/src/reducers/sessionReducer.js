@@ -2,19 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const sessionSlice = createSlice({
   name: 'session',
-  initialState: { user: null },
+  initialState: { username: null },
   reducers: {
     setUser(state, action) {
       return {
-        ...state,
-        user: action.payload,
+        username: action.payload,
       };
     },
-    resetUser(state) {
-      return {
-        ...state,
-        user: null,
-      };
+    resetUser() {
+      return { username: null };
     },
   },
 });

@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const booksRouter = require('express').Router();
 const Book = require('../models/book');
 

@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 const baseUrl = '/api/articles';
 
 const getAll = () => {
-  const request = axios.get(baseUrl);
+  const request = axiosInstance.get(baseUrl);
   return request.then(response => response.data);
 };
 
 const create = async newObject => {
-  const response = await axios.post(baseUrl, newObject);
+  const response = await axiosInstance.post(baseUrl, newObject);
   return response.data;
 };
 

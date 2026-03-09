@@ -11,10 +11,11 @@ import { initializeArticles } from './reducers/articleReducer';
 import { initializeArticleLogs } from './reducers/articleLogReducer';
 import { initializeBookLogs } from './reducers/bookLogReducer';
 import loginService from './services/login';
+import tokenService from './services/token';
 import { setUser, resetUser } from './reducers/sessionReducer';
 
 const App = () => {
-  const user = useSelector(state => state.session.user);
+  const user = useSelector(state => state.session.username);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch();
@@ -33,8 +34,8 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBooknookUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      dispatch(setUser(user))
-      //blogService.setToken(user.token);
+      dispatch(setUser(user.username))
+      tokenService.initializeToken();
     }
   }, [dispatch]);
 
@@ -44,8 +45,8 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem('loggedBooknookUser', JSON.stringify(user));
-      //blogService.setToken(user.token);
-      dispatch(setUser(user));
+      dispatch(setUser(user.username));
+      tokenService.setToken(user.token)
       setUsername('');
       setPassword('');
     } catch {
@@ -55,7 +56,6 @@ const App = () => {
 
   const logout = () => {
     window.localStorage.removeItem('loggedBooknookUser');
-    //blogService.setToken(null);
     dispatch(resetUser())
   };
 
