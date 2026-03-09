@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./utils/config');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 const middleware = require('./utils/middleware');
 
 const usersRouter = require('./controllers/users');
@@ -15,22 +16,21 @@ const app = express();
 
 app.use(express.json());
 
-morgan.token('body', function (req) {
-  if (req.method === 'POST') {
-    return JSON.stringify(req.body);
-  }
-  return '';
-});
-
 app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+  morgan(':method :url :status :res[content-length] - :response-time ms')
 );
 
 mongoose.connect(config.MONGODB_URI, { family: 4 });
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 100 requests per windowMs
+  message: { error: 'Too many login attempts, try again later' },
+});
+
 app.use(middleware.tokenExtractor);
-app.use('/api/users', usersRouter);
-app.use('/api/login', loginRouter);
+// app.use('/api/users', usersRouter);
+app.use('/api/login', loginLimiter, loginRouter);
 app.use('/api/books', middleware.userExtractor, booksRouter);
 app.use('/api/articles', middleware.userExtractor, articlesRouter);
 app.use('/api/articlelogs', middleware.userExtractor, articleLogsRouter);
