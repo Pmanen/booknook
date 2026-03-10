@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { FaBookOpen, FaStar } from 'react-icons/fa';
 
 import '../App.css';
@@ -115,7 +115,7 @@ const LogBook = () => {
         onClick={toggleVisibility}
         className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
       >
-        <AiOutlinePlus className="text-lg" />
+        {visible ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
         Add article
       </button>
       <div style={showWhenVisible}>

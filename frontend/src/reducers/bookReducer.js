@@ -33,4 +33,18 @@ export const initializeBooks = () => {
   };
 };
 
+export const appendBook = book => {
+  return async dispatch => {
+    try {
+      const newBook = await bookService.create(book);
+      dispatch(createBook(newBook));
+    } catch (error) {
+      console.error(
+        'Error creating book:',
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+};
+
 export default bookSlice.reducer;
