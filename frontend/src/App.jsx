@@ -120,8 +120,8 @@ const App = () => {
           Logbook
         </Link>
         <Link
-          to="/"
-          className={isActive('/') ? 'underline' : 'hover:underline'}
+          to="/stats"
+          className={isActive('/stats') ? 'underline' : 'hover:underline'}
         >
           Stats
         </Link>
@@ -134,7 +134,8 @@ const App = () => {
       </div>
 
       <Routes>
-        <Route path="/" element={<StatsDisplay />} />
+        <Route path="/" element={<Library />} />
+        <Route path="/stats" element={<StatsDisplay />} />
         <Route path="/library" element={<Library />} />
         <Route path="/log" element={<LogBook />} />
       </Routes>

@@ -9,10 +9,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend",
+    "deploy": "cp -r * ../../booknook-prod && cd ../../booknook-prod && git add . && git commit -m uibuild && git push",
+    "deploy:full": "npm run build:ui && cp -r * ../../booknook-prod && cd ../../booknook-prod && git add . && git commit -m uibuild && git push"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "eslint-config-prettier": "^10.1.8",
     "express": "^5.2.1",
