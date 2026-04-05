@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import bookService from '../services/books';
+import { appendBookLog } from './bookLogReducer';
 
 const bookSlice = createSlice({
   name: 'books',
@@ -36,8 +37,23 @@ export const initializeBooks = () => {
 export const appendBook = book => {
   return async dispatch => {
     try {
-      const newBook = await bookService.create(book);
+      const newBook = await bookService.create({
+        title: book.title,
+        author: book.author,
+        yearPublished: book.yearPublished,
+        pages: book.pages,
+        genreTag: book.genreTag,
+      });
       dispatch(createBook(newBook));
+      if (book.currentPage) {
+        const newLog = {
+          book: newBook.id,
+          currentPage: Math.min(book.currentPage, newBook.pages),
+          finished: book.currentPage >= newBook.pages,
+          date: '2025-01-01T00:00:00.000Z',
+        };
+        dispatch(appendBookLog(newLog));
+      }
     } catch (error) {
       console.error(
         'Error creating book:',

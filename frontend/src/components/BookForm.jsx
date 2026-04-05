@@ -11,6 +11,7 @@ const BookForm = () => {
   const yearPublishedInput = useField('text');
   const pagesInput = useField('text');
   const genreTagInput = useField('text');
+  const currentPageInput = useField('text');
 
   const handleCreate = async event => {
     event.preventDefault();
@@ -21,6 +22,7 @@ const BookForm = () => {
       yearPublished: yearPublishedInput.input.value,
       pages: pagesInput.input.value,
       genreTag: genreTagInput.input.value,
+      currentPage: currentPageInput.input.value
     };
     dispatch(appendBook(newBook));
 
@@ -29,6 +31,7 @@ const BookForm = () => {
     yearPublishedInput.reset();
     pagesInput.reset();
     genreTagInput.reset();
+    currentPageInput.reset();
   };
 
   const fieldClass =
@@ -61,6 +64,10 @@ const BookForm = () => {
         <div>
           <label className={labelClass}>Genre tag</label>
           <input {...genreTagInput.input} className={fieldClass} />
+        </div>
+        <div>
+          <label className={labelClass}>Current Page</label>
+          <input {...currentPageInput.input} className={fieldClass} />
         </div>
         <div className="col-span-2 flex justify-end">
           <button className="rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white">
