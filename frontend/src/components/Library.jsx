@@ -5,7 +5,7 @@ import { FiBook } from "react-icons/fi";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import CurrentlyReading from './CurrentlyReading';
 import '../App.css';
-import BookForm from './BookForm';
+import BookForm from './forms/BookForm';
 
 const LibraryEntry = props => {
   if (props.pages) {

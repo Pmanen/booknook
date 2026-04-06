@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useField } from '../hooks/useField';
+import { useField } from '../../hooks/useField';
 import { useDispatch } from 'react-redux';
 
-import { appendArticle } from '../reducers/articleReducer';
+import { appendArticle } from '../../reducers/articleReducer';
 
 const ArticleForm = () => {
   const dispatch = useDispatch();

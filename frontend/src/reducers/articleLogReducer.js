@@ -24,8 +24,7 @@ const articleLogSlice = createSlice({
   },
 });
 
-const { setArticleLogs, deleteArticleLog, updateArticleLog } =
-  articleLogSlice.actions;
+const { setArticleLogs, deleteArticleLog } = articleLogSlice.actions;
 
 export const initializeArticleLogs = () => {
   return async dispatch => {
@@ -34,6 +33,6 @@ export const initializeArticleLogs = () => {
   };
 };
 
-export const { createArticleLog } = articleLogSlice.actions;
+export const { createArticleLog, updateArticleLog } = articleLogSlice.actions;
 
 export default articleLogSlice.reducer;

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import articleService from '../services/articles';
 import articleLogService from '../services/articleLogs';
-import { createArticleLog } from './articleLogReducer';
+import { createArticleLog, updateArticleLog } from './articleLogReducer';
 
 const articleSlice = createSlice({
   name: 'articles',
@@ -50,6 +50,25 @@ export const appendArticle = (article, log) => {
     } catch (e) {
       console.error(e.response.data);
     }
+  };
+};
+
+export const editArticle = (article, log) => {
+  return async dispatch => {
+    console.log(article);
+    console.log(log);
+    /* try {
+      const updatedArticle = await articleService.update(article);
+      dispatch(updateArticle(updatedArticle));
+      const updatedLog = await articleLogService.update({
+        ...log,
+        article: article.id,
+        readLength: updatedArticle.length,
+      });
+      dispatch(updateArticleLog(updatedLog));
+    } catch (e) {
+      console.error(e.response.data);
+    } */
   };
 };
 

@@ -4,7 +4,8 @@ import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { FaBookOpen, FaStar } from 'react-icons/fa';
 
 import '../App.css';
-import ArticleForm from './ArticleForm';
+import ArticleForm from './forms/ArticleForm';
+import EditArticleForm from './forms/EditArticleForm';
 
 const groupByDate = entries => {
   const groups = [];
@@ -47,6 +48,8 @@ const EntryNotes = ({ notes }) => {
 };
 
 const Entry = props => {
+  const [isEditing, setIsEditing] = useState(false);
+
   if (props.article) {
     return (
       <div className="mb-3 p-1">
@@ -60,6 +63,10 @@ const Entry = props => {
         <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
           {props.article.genreTag}
         </span>
+        <button onClick={() => setIsEditing(!isEditing)} className="text-sm text-gray-500">edit</button>
+        {isEditing && (
+          <EditArticleForm log={props} onClose={() => setIsEditing(false)} />
+        )}
         <p className="mt-1 text-sm text-gray-700 italic">
           Reading time: {props.readLength} minutes
         </p>
