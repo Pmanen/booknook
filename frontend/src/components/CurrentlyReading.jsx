@@ -32,12 +32,14 @@ const getRecentBooks = (bookLogs, count) => {
 const BookStatusItem = ({ log }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
+  const [confirmingFinished, setConfirmingFinished] = useState(false);
   const [updatePage, setUpdatePage] = useState(log.currentPage);
   const [updatePercentage, setUpdatePercentage] = useState(
     Math.round(log.percentRead)
   );
 
   const showWhenVisible = { display: visible ? '' : 'none' };
+  const showWhenConfirming = { display: confirmingFinished ? '' : 'none' };
   const toggleVisibility = () => {
     setVisible(!visible);
   };
@@ -129,11 +131,28 @@ const BookStatusItem = ({ log }) => {
 
         <div className="mt-3 border-t border-gray-200 pt-3">
           <button
-            onClick={handleFinished}
+            onClick={() => setConfirmingFinished(!confirmingFinished)}
             className="rounded border border-red-800/40 px-3 py-1 text-xs tracking-wide text-red-800 hover:bg-red-800/5"
           >
             Mark finished
           </button>
+          <div style={showWhenConfirming} className="mt-2 rounded border border-red-800/40 bg-red-50 p-3 flex gap-2">
+            <p className="self-center text-sm text-gray-900 mr-3">
+              Sure?
+            </p>
+            <button
+              onClick={handleFinished}
+              className="rounded border border-red-800/40 px-3 py-1 text-xs tracking-wide text-red-800 hover:bg-red-800/5"
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => setConfirmingFinished(false)}
+              className="rounded border border-gray-300 px-3 py-1 text-xs tracking-wide text-gray-700 hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>
