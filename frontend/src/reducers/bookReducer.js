@@ -34,6 +34,28 @@ export const initializeBooks = () => {
   };
 };
 
+export const removeBook = id => {
+  return async dispatch => {
+    try {
+      await bookService.remove(id);
+      dispatch(deleteBook(id));
+    } catch (error) {
+      console.error('Error deleting book:', error.response ? error.response.data : error.message);
+    }
+  };
+};
+
+export const modifyBook = book => {
+  return async dispatch => {
+    try {
+      const updatedBook = await bookService.update(book);
+      dispatch(updateBook(updatedBook));
+    } catch (error) {
+      console.error('Error updating book:', error.response ? error.response.data : error.message);
+    }
+  };
+};
+
 export const appendBook = book => {
   return async dispatch => {
     try {

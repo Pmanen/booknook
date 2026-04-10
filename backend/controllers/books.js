@@ -20,4 +20,16 @@ booksRouter.delete('/:id', async (request, response) => {
   response.status(204).end();
 });
 
+booksRouter.put('/:id', async (request, response) => {
+  const updatedBook = await Book.findByIdAndUpdate(
+    request.params.id,
+    request.body,
+    { new: true }
+  );
+  if (!updatedBook) {
+    return response.status(404).json({ error: 'book not found' });
+  }
+  response.json(updatedBook);
+});
+
 module.exports = booksRouter;
