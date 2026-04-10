@@ -22,4 +22,16 @@ articlesRouter.delete('/:id', async (request, response) => {
   response.status(204).end();
 });
 
+articlesRouter.put('/:id', async (request, response) => {
+  const updatedArticle = await Article.findByIdAndUpdate(
+    request.params.id,
+    request.body,
+    { new: true }
+  );
+  if (!updatedArticle) {
+    return response.status(404).json({ error: 'article not found' });
+  }
+  response.json(updatedArticle);
+});
+
 module.exports = articlesRouter;

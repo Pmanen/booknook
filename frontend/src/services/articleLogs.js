@@ -1,7 +1,7 @@
 import axiosInstance from '../api/axiosInstance';
 const baseUrl = '/api/articlelogs';
 
-const getAll = () => {
+const getAll = async () => {
   const request = axiosInstance.get(baseUrl);
   return request.then(response => response.data);
 };
@@ -11,4 +11,12 @@ const create = async newObject => {
   return response.data;
 };
 
-export default { getAll, create };
+const update = async updatedObject => {
+  const response = await axiosInstance.put(
+    `${baseUrl}/${updatedObject.id}`,
+    updatedObject
+  );
+  return response.data;
+};
+
+export default { getAll, create, update };

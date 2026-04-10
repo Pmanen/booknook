@@ -4,17 +4,35 @@ import { useDispatch } from 'react-redux';
 
 import { editArticle } from '../../reducers/articleReducer';
 
-const EditArticleForm = ({ log, onClose}) => {
+const EditArticleForm = ({ log, onClose }) => {
   const dispatch = useDispatch();
   const titleInput = useField('text', log.article.title);
   const authorInput = useField('text', log.article.author);
   const outletInput = useField('text', log.article.outlet);
   const urlInput = useField('text', log.article.url);
-  const datePublishedInput = useField('date', new Date(log.article.datePublished).toISOString().split('T')[0]);
+  const datePublishedInput = useField(
+    'date',
+    new Date(log.article.datePublished).toISOString().split('T')[0]
+  );
   const lengthInput = useField('number', Number(log.readLength));
   const genreTagInput = useField('text', log.article.genreTag);
   const [notes, setNotes] = useState(log.notes);
   const [isFavorite, setIsFavorite] = useState(log.favorite);
+
+  const compareArticlesandLogs = (newArticle, newLog) => {
+    return (
+      newArticle.title === log.article.title &&
+      newArticle.author === log.article.author &&
+      newArticle.outlet === log.article.outlet &&
+      newArticle.url === log.article.url &&
+      newArticle.length === log.readLength &&
+      newArticle.datePublished ===
+        new Date(log.article.datePublished).toISOString().split('T')[0] &&
+      newArticle.genreTag === log.article.genreTag &&
+      newLog.notes === log.notes &&
+      newLog.favorite === log.favorite
+    );
+  };
 
   const handleUpdate = async event => {
     event.preventDefault();
@@ -35,13 +53,16 @@ const EditArticleForm = ({ log, onClose}) => {
       notes,
       favorite: isFavorite,
     };
-    dispatch(editArticle(newArticle, newLog));
+    if (!compareArticlesandLogs(newArticle, newLog)) {
+      dispatch(editArticle(newArticle, newLog));
+    }
     onClose();
   };
 
   const fieldClass =
     'w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:border-red-800 focus:outline-none';
-  const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
+  const labelClass =
+    'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
 
   return (
     <div className="mb-6 rounded border border-gray-200 bg-neutral-50 p-5">

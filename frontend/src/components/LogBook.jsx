@@ -63,7 +63,7 @@ const Entry = props => {
         <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
           {props.article.genreTag}
         </span>
-        <button onClick={() => setIsEditing(!isEditing)} className="text-sm text-gray-500">edit</button>
+        <button onClick={() => setIsEditing(!isEditing)} className="text-xs text-gray-500 underline hover:text-gray-800">edit</button>
         {isEditing && (
           <EditArticleForm log={props} onClose={() => setIsEditing(false)} />
         )}

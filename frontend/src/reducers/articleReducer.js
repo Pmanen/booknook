@@ -55,9 +55,7 @@ export const appendArticle = (article, log) => {
 
 export const editArticle = (article, log) => {
   return async dispatch => {
-    console.log(article);
-    console.log(log);
-    /* try {
+    try {
       const updatedArticle = await articleService.update(article);
       dispatch(updateArticle(updatedArticle));
       const updatedLog = await articleLogService.update({
@@ -68,7 +66,7 @@ export const editArticle = (article, log) => {
       dispatch(updateArticleLog(updatedLog));
     } catch (e) {
       console.error(e.response.data);
-    } */
+    }
   };
 };
 

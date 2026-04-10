@@ -40,4 +40,24 @@ articleLogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end();
 });
 
+articleLogsRouter.put('/:id', async (request, response) => {
+  const updatedArticleLog = await ArticleLog.findByIdAndUpdate(
+    request.params.id,
+    request.body,
+    { new: true }
+  ).populate('article', {
+    title: 1,
+    author: 1,
+    outlet: 1,
+    url: 1,
+    dateAdded: 1,
+    datePublished: 1,
+    genreTag: 1,
+  });
+  if (!updatedArticleLog) {
+    return response.status(404).json({ error: 'article log not found' });
+  }
+  response.json(updatedArticleLog);
+});
+
 module.exports = articleLogsRouter;
