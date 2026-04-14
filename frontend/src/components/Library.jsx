@@ -6,6 +6,7 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import CurrentlyReading from './CurrentlyReading';
 import DropdownMenu from './DropdownMenu';
 import BookForm from './forms/BookForm';
+import ArticleForm from './forms/ArticleForm';
 import EditBookForm from './forms/EditBookForm';
 import AddProgressForm from './forms/AddProgressForm';
 import '../App.css';
@@ -76,9 +77,10 @@ const Library = () => {
     .slice()
     .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
 
-  const [visible, setVisible] = useState(false);
-  const showWhenVisible = { display: visible ? '' : 'none' };
-  const toggleVisibility = () => setVisible(!visible);
+  const [visibleBookForm, setVisibleBookForm] = useState(false);
+  const showBookFormWhenVisible = { display: visibleBookForm ? '' : 'none' };
+  const [visibleArticleForm, setVisibleArticleForm] = useState(false);
+  const showArticleFormWhenVisible = { display: visibleArticleForm ? '' : 'none' };
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -86,16 +88,30 @@ const Library = () => {
       <CurrentlyReading />
       <div className="mt-6">
         <h3 className="my-3 text-center text-2xl font-semibold text-amber-700">All books and articles</h3>
-        <button
-          onClick={toggleVisibility}
-          className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
-        >
-          {visible ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
-          Add book
-        </button>
-        <div style={showWhenVisible}>
+        <div className="flex gap-4">
+          <button
+            onClick={() => {setVisibleBookForm(!visibleBookForm); setVisibleArticleForm(false)}}
+            className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
+          >
+            {visibleBookForm ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
+            Add book
+          </button>
+          <button
+            onClick={() => {setVisibleArticleForm(!visibleArticleForm); setVisibleBookForm(false)}}
+            className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
+          >
+            {visibleArticleForm ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
+            Add read article
+          </button>
+        </div>
+
+        <div style={showBookFormWhenVisible}>
           <BookForm />
         </div>
+        <div style={showArticleFormWhenVisible}>
+          <ArticleForm />
+        </div>
+
         <ul>
           {library.map(document =>
             document.pages
