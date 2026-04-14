@@ -1,5 +1,6 @@
 const articlesRouter = require('express').Router();
 const Article = require('../models/article');
+const ArticleLog = require('../models/articleLog');
 
 articlesRouter.get('/', async (request, response) => {
   const articles = await Article.find({});
@@ -18,6 +19,7 @@ articlesRouter.delete('/:id', async (request, response) => {
   if (!toDelete) {
     return response.status(404).json({ error: 'article not found' });
   }
+  await ArticleLog.deleteMany({ article: request.params.id });
   await Article.findByIdAndDelete(request.params.id);
   response.status(204).end();
 });

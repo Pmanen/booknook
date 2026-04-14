@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken');
-
 const booksRouter = require('express').Router();
 const Book = require('../models/book');
+const BookLog = require('../models/bookLog');
 
 booksRouter.get('/', async (request, response) => {
   const books = await Book.find({});
@@ -16,6 +15,11 @@ booksRouter.post('/', async (request, response) => {
 });
 
 booksRouter.delete('/:id', async (request, response) => {
+  const toDelete = await Book.findById(request.params.id);
+  if (!toDelete) {
+    return response.status(404).json({ error: 'book not found' });
+  }
+  await BookLog.deleteMany({ book: request.params.id });
   await Book.findByIdAndDelete(request.params.id);
   response.status(204).end();
 });

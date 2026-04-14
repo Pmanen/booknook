@@ -17,6 +17,9 @@ const articleLogSlice = createSlice({
     deleteArticleLog(state, action) {
       return state.filter(obj => obj.id !== action.payload);
     },
+    deleteLogsForArticle(state, action) {
+      return state.filter(obj => obj.article.id !== action.payload);
+    },
     updateArticleLog(state, action) {
       const id = action.payload.id;
       return state.map(obj => (obj.id !== id ? obj : action.payload));
@@ -24,7 +27,7 @@ const articleLogSlice = createSlice({
   },
 });
 
-const { setArticleLogs, deleteArticleLog } = articleLogSlice.actions;
+const { setArticleLogs } = articleLogSlice.actions;
 
 export const initializeArticleLogs = () => {
   return async dispatch => {
@@ -33,6 +36,7 @@ export const initializeArticleLogs = () => {
   };
 };
 
-export const { createArticleLog, updateArticleLog } = articleLogSlice.actions;
+export const { createArticleLog, updateArticleLog, deleteLogsForArticle } =
+  articleLogSlice.actions;
 
 export default articleLogSlice.reducer;

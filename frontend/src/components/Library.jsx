@@ -8,9 +8,11 @@ import DropdownMenu from './DropdownMenu';
 import BookForm from './forms/BookForm';
 import ArticleForm from './forms/ArticleForm';
 import EditBookForm from './forms/EditBookForm';
+import EditArticleForm from './forms/EditArticleForm';
 import AddProgressForm from './forms/AddProgressForm';
 import '../App.css';
 import { removeBook } from '../reducers/bookReducer';
+import { removeArticle } from '../reducers/articleReducer';
 
 const BookEntry = ({ book }) => {
   const dispatch = useDispatch();
@@ -54,20 +56,45 @@ const BookEntry = ({ book }) => {
   );
 };
 
-const ArticleEntry = props => (
+const ArticleEntry = ({ article }) => {
+  const dispatch = useDispatch();
+  const [activeForm, setActiveForm] = useState(false)
+
+  const menuItems = [
+    { label: 'Edit', onClick: () => setActiveForm(!activeForm) },
+    {
+      label: 'Delete',
+      danger: true,
+      onClick: () => {
+        if (window.confirm(`Delete "${article.title}"?`)) {
+          dispatch(removeArticle(article.id));
+        }
+      },
+    },
+  ];
+
+  return(
   <li className="mb-1 p-1">
-    <IoDocumentTextOutline className="mr-1 inline align-middle text-sm text-black" />
-    {props.author}
-    {props.outlet && ` (${props.outlet})`}, &ldquo;
-    <a href={props.url} target="_blank" rel="noopener noreferrer">
-      {props.title}
-    </a>
-    &rdquo;.
-    <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
-      {props.genreTag}
-    </span>
-  </li>
-);
+    <div className="flex items-center justify-between gap-2">
+      <div>
+        <IoDocumentTextOutline className="mr-1 inline align-middle text-sm text-black" />
+        {article.author}
+        {article.outlet && ` (${article.outlet})`}, &ldquo;
+        <a href={article.url} target="_blank" rel="noopener noreferrer">
+          {article.title}
+        </a>
+        &rdquo;.
+        <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+          {article.genreTag}
+        </span>
+      </div>
+      <DropdownMenu items={menuItems} />
+    </div>
+    {activeForm && (
+      <EditArticleForm article={article} onClose={() => setActiveForm(false)} />
+    )}
+  </li>)
+};
 
 const Library = () => {
   const books = useSelector(state => state.books);
@@ -116,7 +143,7 @@ const Library = () => {
           {library.map(document =>
             document.pages
               ? <BookEntry key={document.id} book={document} />
-              : <ArticleEntry key={document.id} {...document} />
+              : <ArticleEntry key={document.id} article={document} />
           )}
         </ul>
       </div>

@@ -5,7 +5,7 @@ import { FaBookOpen, FaStar } from 'react-icons/fa';
 
 import '../App.css';
 import ArticleForm from './forms/ArticleForm';
-import EditArticleForm from './forms/EditArticleForm';
+import EditArticleLogForm from './forms/EditArticleLogForm';
 
 const groupByDate = entries => {
   const groups = [];
@@ -65,7 +65,7 @@ const Entry = props => {
         </span>
         <button onClick={() => setIsEditing(!isEditing)} className="text-xs text-gray-500 underline hover:text-gray-800">edit</button>
         {isEditing && (
-          <EditArticleForm log={props} onClose={() => setIsEditing(false)} />
+          <EditArticleLogForm log={props} onClose={() => setIsEditing(false)} />
         )}
         <p className="mt-1 text-sm text-gray-700 italic">
           Reading time: {props.readLength} minutes

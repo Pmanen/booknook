@@ -19,4 +19,8 @@ const update = async updatedObject => {
   return response.data;
 };
 
-export default { getAll, create, update };
+const remove = async id => {
+  await axiosInstance.delete(`${baseUrl}/${id}`);
+};
+
+export default { getAll, create, update, remove };

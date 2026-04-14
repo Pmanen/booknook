@@ -4,33 +4,29 @@ import { useDispatch } from 'react-redux';
 
 import { editArticle } from '../../reducers/articleReducer';
 
-const EditArticleForm = ({ log, onClose }) => {
+const EditArticleForm = ({ article, onClose }) => {
   const dispatch = useDispatch();
-  const titleInput = useField('text', log.article.title);
-  const authorInput = useField('text', log.article.author);
-  const outletInput = useField('text', log.article.outlet);
-  const urlInput = useField('text', log.article.url);
+  const titleInput = useField('text', article.title);
+  const authorInput = useField('text', article.author);
+  const outletInput = useField('text', article.outlet);
+  const urlInput = useField('text', article.url);
   const datePublishedInput = useField(
     'date',
-    new Date(log.article.datePublished).toISOString().split('T')[0]
+    new Date(article.datePublished).toISOString().split('T')[0]
   );
-  const lengthInput = useField('number', Number(log.readLength));
-  const genreTagInput = useField('text', log.article.genreTag);
-  const [notes, setNotes] = useState(log.notes);
-  const [isFavorite, setIsFavorite] = useState(log.favorite);
+  const lengthInput = useField('number', Number(article.length));
+  const genreTagInput = useField('text', article.genreTag);
 
-  const compareArticlesandLogs = (newArticle, newLog) => {
+  const compareArticles = (newArticle) => {
     return (
-      newArticle.title === log.article.title &&
-      newArticle.author === log.article.author &&
-      newArticle.outlet === log.article.outlet &&
-      newArticle.url === log.article.url &&
-      newArticle.length === log.readLength &&
+      newArticle.title === article.title &&
+      newArticle.author === article.author &&
+      newArticle.outlet === article.outlet &&
+      newArticle.url === article.url &&
+      newArticle.length === article.length &&
       newArticle.datePublished ===
-        new Date(log.article.datePublished).toISOString().split('T')[0] &&
-      newArticle.genreTag === log.article.genreTag &&
-      newLog.notes === log.notes &&
-      newLog.favorite === log.favorite
+        new Date(article.datePublished).toISOString().split('T')[0] &&
+      newArticle.genreTag === article.genreTag
     );
   };
 
@@ -38,7 +34,7 @@ const EditArticleForm = ({ log, onClose }) => {
     event.preventDefault();
 
     const newArticle = {
-      id: log.article.id,
+      id: article.id,
       title: titleInput.input.value,
       author: authorInput.input.value,
       outlet: outletInput.input.value,
@@ -47,14 +43,8 @@ const EditArticleForm = ({ log, onClose }) => {
       datePublished: datePublishedInput.input.value,
       genreTag: genreTagInput.input.value,
     };
-    const newLog = {
-      id: log.id,
-      date: log.date,
-      notes,
-      favorite: isFavorite,
-    };
-    if (!compareArticlesandLogs(newArticle, newLog)) {
-      dispatch(editArticle(newArticle, newLog));
+    if (!compareArticles(newArticle)) {
+      dispatch(editArticle(newArticle));
     }
     onClose();
   };
@@ -101,29 +91,18 @@ const EditArticleForm = ({ log, onClose }) => {
           <label className={labelClass}>Genre tag</label>
           <input {...genreTagInput.input} className={fieldClass} />
         </div>
-        <div className="flex items-center pt-5">
-          <label className="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
-            <input
-              type="checkbox"
-              checked={isFavorite}
-              onChange={e => setIsFavorite(e.target.checked)}
-              className="accent-red-800"
-            />
-            Favorite
-          </label>
-        </div>
-        <div className="col-span-2">
-          <label className={labelClass}>Notes</label>
-          <textarea
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            className={`${fieldClass} resize-y`}
-            rows={6}
-            placeholder="Thoughts, quotes, takeaways…"
-          />
-        </div>
-        <div className="col-span-2 flex justify-end">
-          <button className="rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white">
+        <div className="col-span-2 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded border border-gray-300 px-4 py-1 text-sm text-gray-600 hover:bg-neutral-200"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="rounded border-2 border-red-800 bg-neutral-50 px-4 py-1 text-sm font-semibold text-red-800 hover:bg-red-700 hover:text-white"
+          >
             Save changes
           </button>
         </div>
