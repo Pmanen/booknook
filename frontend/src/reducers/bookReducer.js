@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import bookService from '../services/books';
-import { appendBookLog } from './bookLogReducer';
+import { appendBookLog, updateBookInLogs } from './bookLogReducer';
 
 const bookSlice = createSlice({
   name: 'books',
@@ -50,6 +50,7 @@ export const modifyBook = book => {
     try {
       const updatedBook = await bookService.update(book);
       dispatch(updateBook(updatedBook));
+      dispatch(updateBookInLogs(updatedBook));
     } catch (error) {
       console.error('Error updating book:', error.response ? error.response.data : error.message);
     }

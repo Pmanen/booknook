@@ -18,12 +18,18 @@ const bookLogSlice = createSlice({
       const id = action.payload.id;
       return state.map(obj => (obj.id !== id ? obj : action.payload));
     },
+    updateBookInLogs(state, action) {
+      const updatedBook = action.payload;
+      return state.map(obj =>
+        obj.book.id === updatedBook.id ? { ...obj, book: updatedBook } : obj
+      );
+    },
   },
 });
 
-const { setBookLogs, createBookLog, deleteBookLog } = bookLogSlice.actions;
+const { setBookLogs, createBookLog, deleteBookLog, updateBookInLogs } = bookLogSlice.actions;
 
-export { deleteBookLog };
+export { deleteBookLog, updateBookInLogs };
 
 export const initializeBookLogs = () => {
   return async dispatch => {
