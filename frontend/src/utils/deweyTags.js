@@ -55,4 +55,6 @@ export const deweyLabel = code => {
   return name ? `${name} (${code})` : `${code}`;
 };
 
+export const deweyText = code => deweyTags[code] || code;
+
 export default deweyTags;

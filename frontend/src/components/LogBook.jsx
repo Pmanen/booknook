@@ -7,6 +7,7 @@ import '../App.css';
 import ArticleForm from './forms/ArticleForm';
 import EditArticleLogForm from './forms/EditArticleLogForm';
 import { removeBookLog } from '../reducers/bookLogReducer';
+import { deweyText } from '../utils/deweyTags';
 
 const groupByDate = entries => {
   const groups = [];
@@ -89,9 +90,14 @@ const Entry = props => {
       <div className="mb-3 p-1">
         <FaBookOpen className="mr-1 inline align-middle text-sm text-black" />{' '}
         {props.book.author} - "{props.book.title}".{' '}
-        <span className="mx-2 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
-          {props.book.genreTag}
-        </span>
+        <span className="relative group cursor-default inline-block">
+            <span className="rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+              {props.book.genreTag}
+            </span>
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-10">
+              {deweyText(props.book.genreTag)}
+            </span>
+          </span>
         {showDelete && (
           <button
             onClick={() => dispatch(removeBookLog(props.id))}

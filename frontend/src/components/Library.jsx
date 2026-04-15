@@ -13,6 +13,7 @@ import AddProgressForm from './forms/AddProgressForm';
 import '../App.css';
 import { removeBook } from '../reducers/bookReducer';
 import { removeArticle } from '../reducers/articleReducer';
+import { deweyText } from '../utils/deweyTags';
 
 const BookEntry = ({ book }) => {
   const dispatch = useDispatch();
@@ -40,8 +41,13 @@ const BookEntry = ({ book }) => {
         <div>
           <FiBook className="mr-1 inline align-middle text-sm text-black" />
           {book.author}, &ldquo;{book.title}&rdquo;.
-          <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
-            {book.genreTag}
+          <span className="relative group cursor-default inline-block">
+            <span className="rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+              {book.genreTag}
+            </span>
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-10">
+              {deweyText(book.genreTag)}
+            </span>
           </span>
         </div>
         <DropdownMenu items={menuItems} />
