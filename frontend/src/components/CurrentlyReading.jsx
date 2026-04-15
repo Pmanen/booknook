@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaPencilAlt } from "react-icons/fa";
 import { appendBookLog } from '../reducers/bookLogReducer';
+import { deweyLabel } from '../utils/deweyTags';
 
 const getRecentBooks = (bookLogs, count) => {
   const seenBookIds = new Set();
@@ -89,7 +90,7 @@ const BookStatusItem = ({ log }) => {
     <div className="mx-auto max-w-150 my-4 px-5 py-4 border border-gray-200 shadow-sm rounded-lg bg-gray-50">
       <h3 className="font-semibold">{log.book.title}</h3>
       <p className="mt-0.5 text-sm italic text-gray-500">
-        {log.book.author} · {log.book.yearPublished} · {log.book.genreTag}
+        {log.book.author} · {log.book.yearPublished} · {deweyLabel(log.book.genreTag)}
       </p>
 
       <div className="mt-3 flex items-center gap-2 text-sm text-gray-700">
