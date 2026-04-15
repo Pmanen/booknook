@@ -52,7 +52,7 @@ const BookForm = () => {
           <input {...authorInput.input} className={fieldClass} />
         </div>
         <div>
-          <label className={labelClass}>Year Published</label>
+          <label className={labelClass}>Year Published <span className="text-red-800">*</span></label>
           <input {...yearPublishedInput.input} className={fieldClass} />
         </div>
         <div>
@@ -62,7 +62,7 @@ const BookForm = () => {
           <input {...pagesInput.input} className={fieldClass} />
         </div>
         <div>
-          <label className={labelClass}>Genre tag</label>
+          <label className={labelClass}>Genre tag <span className="text-red-800">*</span></label>
           <input {...genreTagInput.input} className={fieldClass} />
         </div>
         <div>

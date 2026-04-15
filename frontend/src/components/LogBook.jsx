@@ -107,7 +107,7 @@ const Entry = props => {
           </button>
         )}
         <p className="mt-1 text-sm text-gray-700 italic">
-          Pages read: {props.readLength}, current page: {props.currentPage}
+          Pages read: {props.readLength}, current page: {props.finished ? 'finished!' : props.currentPage}
         </p>
         {props.notes && (
           <p className="mx-3 mt-2 text-sm text-gray-900">
