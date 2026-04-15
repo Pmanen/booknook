@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { FaBookOpen, FaStar } from 'react-icons/fa';
@@ -6,6 +6,7 @@ import { FaBookOpen, FaStar } from 'react-icons/fa';
 import '../App.css';
 import ArticleForm from './forms/ArticleForm';
 import EditArticleLogForm from './forms/EditArticleLogForm';
+import { removeBookLog } from '../reducers/bookLogReducer';
 
 const groupByDate = entries => {
   const groups = [];
@@ -47,7 +48,10 @@ const EntryNotes = ({ notes }) => {
   );
 };
 
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
 const Entry = props => {
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   if (props.article) {
@@ -78,6 +82,9 @@ const Entry = props => {
       </div>
     );
   } else {
+    const isRecent = Date.now() - new Date(props.date).getTime() <= THIRTY_DAYS_MS;
+    const showDelete = isRecent && props.isLatestForBook;
+
     return (
       <div className="mb-3 p-1">
         <FaBookOpen className="mr-1 inline align-middle text-sm text-black" />{' '}
@@ -85,6 +92,14 @@ const Entry = props => {
         <span className="mx-2 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
           {props.book.genreTag}
         </span>
+        {showDelete && (
+          <button
+            onClick={() => dispatch(removeBookLog(props.id))}
+            className="text-xs text-gray-500 underline hover:text-gray-800"
+          >
+            delete
+          </button>
+        )}
         <p className="mt-1 text-sm text-gray-700 italic">
           Pages read: {props.readLength}, current page: {props.currentPage}
         </p>
@@ -107,6 +122,18 @@ const LogBook = () => {
   const toggleVisibility = () => {
     setVisible(!visible);
   };
+
+  const latestBookLogIds = new Set(
+    Object.values(
+      bookLogs.reduce((acc, log) => {
+        const bookId = log.book.id;
+        if (!acc[bookId] || new Date(log.date) > new Date(acc[bookId].date)) {
+          acc[bookId] = log;
+        }
+        return acc;
+      }, {})
+    ).map(log => log.id)
+  );
 
   const sortedLogs = articleLogs
     .concat(bookLogs)
@@ -132,7 +159,7 @@ const LogBook = () => {
         <div className="mt-4" key={group.date}>
           <h3 className="text-lg font-bold text-amber-700">{group.date}</h3>
           {group.entries.map(entry => (
-            <Entry key={entry.id} {...entry} />
+            <Entry key={entry.id} {...entry} isLatestForBook={latestBookLogIds.has(entry.id)} />
           ))}
         </div>
       ))}

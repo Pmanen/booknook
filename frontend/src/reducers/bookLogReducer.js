@@ -21,7 +21,9 @@ const bookLogSlice = createSlice({
   },
 });
 
-const { setBookLogs, createBookLog } = bookLogSlice.actions;
+const { setBookLogs, createBookLog, deleteBookLog } = bookLogSlice.actions;
+
+export { deleteBookLog };
 
 export const initializeBookLogs = () => {
   return async dispatch => {
@@ -37,6 +39,17 @@ export const appendBookLog = log => {
       dispatch(createBookLog(newLog));
     } catch (e) {
       console.error(e.response.data);
+    }
+  };
+};
+
+export const removeBookLog = id => {
+  return async dispatch => {
+    try {
+      await bookLogService.remove(id);
+      dispatch(deleteBookLog(id));
+    } catch (e) {
+      console.error(e.response?.data);
     }
   };
 };

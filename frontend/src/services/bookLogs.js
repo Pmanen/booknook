@@ -11,4 +11,8 @@ const create = async newObject => {
   return response.data;
 };
 
-export default { getAll, create };
+const remove = async id => {
+  await axiosInstance.delete(`${baseUrl}/${id}`);
+};
+
+export default { getAll, create, remove };

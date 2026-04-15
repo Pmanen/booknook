@@ -45,6 +45,12 @@ bookLogsRouter.delete('/:id', async (request, response) => {
   if (!logToDelete) {
     return response.status(404).json({ error: 'log not found' });
   }
+
+  const mostRecentLog = await BookLog.findOne({ book: logToDelete.book }).sort({ date: -1 });
+  if (!mostRecentLog._id.equals(logToDelete._id)) {
+    return response.status(400).json({ error: 'only the most recent log for a book can be deleted' });
+  }
+
   await BookLog.findByIdAndDelete(request.params.id);
   response.status(204).end();
 });
