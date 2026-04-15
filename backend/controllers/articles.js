@@ -25,9 +25,14 @@ articlesRouter.delete('/:id', async (request, response) => {
 });
 
 articlesRouter.put('/:id', async (request, response) => {
+  const { datePublished, ...rest } = request.body;
+  const update = datePublished
+    ? { $set: { ...rest, datePublished } }
+    : { $set: rest, $unset: { datePublished: '' } };
+
   const updatedArticle = await Article.findByIdAndUpdate(
     request.params.id,
-    request.body,
+    update,
     { new: true }
   );
   if (!updatedArticle) {

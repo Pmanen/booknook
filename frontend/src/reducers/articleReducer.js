@@ -44,7 +44,7 @@ export const appendArticle = (article, log) => {
   return async dispatch => {
     try {
       const newArticle = await articleService.create(article);
-      dispatch(createArticle(article));
+      dispatch(createArticle(newArticle));
       const newLog = await articleLogService.create({
         ...log,
         article: newArticle.id,
