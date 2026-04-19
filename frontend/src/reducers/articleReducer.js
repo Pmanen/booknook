@@ -72,12 +72,12 @@ export const editArticleLog = (article, log) => {
   return async dispatch => {
     try {
       const updatedArticle = await articleService.update(article);
-      dispatch(updateArticle(updatedArticle));
       const updatedLog = await articleLogService.update({
         ...log,
         article: article.id,
         readLength: updatedArticle.length,
       });
+      dispatch(updateArticle(updatedArticle));
       dispatch(updateArticleLog(updatedLog));
     } catch (e) {
       console.error(e.response.data);

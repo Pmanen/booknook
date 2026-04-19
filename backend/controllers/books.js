@@ -28,7 +28,7 @@ booksRouter.put('/:id', async (request, response) => {
   const updatedBook = await Book.findByIdAndUpdate(
     request.params.id,
     request.body,
-    { new: true }
+    { new: true, runValidators: true }
   );
   if (!updatedBook) {
     return response.status(404).json({ error: 'book not found' });

@@ -33,7 +33,7 @@ articlesRouter.put('/:id', async (request, response) => {
   const updatedArticle = await Article.findByIdAndUpdate(
     request.params.id,
     update,
-    { new: true }
+    { new: true, runValidators: true }
   );
   if (!updatedArticle) {
     return response.status(404).json({ error: 'article not found' });

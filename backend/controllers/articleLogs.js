@@ -44,7 +44,7 @@ articleLogsRouter.put('/:id', async (request, response) => {
   const updatedArticleLog = await ArticleLog.findByIdAndUpdate(
     request.params.id,
     request.body,
-    { new: true }
+    { new: true, runValidators: true }
   ).populate('article', {
     title: 1,
     author: 1,
