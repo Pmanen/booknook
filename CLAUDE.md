@@ -11,12 +11,14 @@ Booknook is a personal reading tracker for books and articles. It is a full-stac
 Both services must run simultaneously during development.
 
 **Backend** (runs on port 3003):
+
 ```bash
 cd backend && npm run dev    # node --watch index.js
 cd backend && npm start      # production
 ```
 
 **Frontend** (runs on port 5173, proxies `/api` to port 3003):
+
 ```bash
 cd frontend && npm run dev
 cd frontend && npm run build
@@ -35,15 +37,41 @@ There are no automated tests. The `backend/requests/` directory contains `.rest`
 - **Routing**: React Router DOM 7
 
 **Routes** (defined in `frontend/src/App.jsx`):
-- `/` → `StatsDisplay`
+
+- `/` → `Library`
 - `/library` → `Library`
 - `/log` → `LogBook`
+- `/stats` → `StatsDisplay`
 
 **Data flow**: On app load, `App.jsx` dispatches all four `initialize*` thunks. Each thunk fetches from the API and populates its Redux slice. Subsequent mutations call the API service first, then dispatch an update action to sync the store.
 
 **State slices** (`frontend/src/reducers/`): `bookReducer`, `articleReducer`, `bookLogReducer`, `articleLogReducer` — each exports async thunks (`initializeX`, `createX`, `updateX`, `deleteX`).
 
 **API services** (`frontend/src/services/`): Thin Axios wrappers — `books.js`, `articles.js`, `bookLogs.js`, `articleLogs.js`.
+
+**Components** (`frontend/src/components/`):
+
+- `Library.jsx` — combined books + articles list with inline `SortDropdown` component; uses `sortLibrary` + `applyFilters` from utils
+- `forms/FilterLibraryForm.jsx` — collapsible filter panel (type, genre group, outlet, finished, has-progress); draft state submitted explicitly via Filter button
+- `LogBook.jsx` — all reading logs grouped by date; includes currently-reading progress at top
+- `CurrentlyReading.jsx` — in-progress books with page/percentage update and mark-finished
+- `StatsDisplay.jsx` — current-month reading statistics
+- `DropdownMenu.jsx` — reusable three-dot action menu with outside-click detection
+- `forms/BookForm.jsx` — create book (+ optional initial log)
+- `forms/ArticleForm.jsx` — create article + article log in one action
+- `forms/EditBookForm.jsx` — edit book; calls `modifyBook` thunk which cascades to bookLogs in store
+- `forms/EditArticleForm.jsx` — edit article metadata only
+- `forms/EditArticleLogForm.jsx` — edit article log fields + article metadata together
+- `forms/AddProgressForm.jsx` — append a book log; auto-sets `finished` when page ≥ total pages
+
+**Utilities** (`frontend/src/utils/`):
+
+- `deweyTags.js` — Dewey-inspired genre tag map (00–99); exports `deweyLabel(code)` and `deweyText(code)`
+- `libraryFilters.js` — `sortLibrary(library, sortKey)`, `applyFilters(library, filters, bookLogs)`, `SORT_OPTIONS`, `DEFAULT_FILTERS`, `getFinishedBookIds(bookLogs)`, `getBooksWithProgressIds(bookLogs)`
+
+**Sorting** (`sortLibrary`): 11 options (latest/earliest added, author A–Z, title A–Z, length low/high, publish date earliest/latest, genre 0–99/99–0, outlet A–Z). Nulls always sort to the bottom regardless of direction. Books' `yearPublished` (integer year) is converted to `YEAR-01-01` for date comparison with article `datePublished`. `pages` (books) and `length` (articles, in minutes) are treated as equivalent for length sorting.
+
+**Filtering** (`applyFilters`): type (books/articles), genre group (ranges 00–09 … 90–99, multi-select), outlet substring match, finished (books with any `finished: true` bookLog; articles always included), has reading progress (books with any bookLog; articles always included).
 
 ### Backend
 
@@ -52,11 +80,21 @@ There are no automated tests. The `backend/requests/` directory contains `.rest`
 - **Entry point**: `backend/index.js` → `backend/app.js`
 
 **API endpoints** (all under `/api`):
-- `GET/POST /api/books`
-- `GET/POST /api/articles`
-- `GET/POST /api/booklogs`
-- `GET/POST /api/articlelogs`
+
+- `GET/POST/PUT/DELETE /api/books`
+- `GET/POST/PUT/DELETE /api/articles`
+- `GET/POST/DELETE /api/booklogs`
+- `GET/POST/PUT /api/articlelogs`
+
+All `PUT` handlers pass `{ new: true, runValidators: true }` to `findByIdAndUpdate` so Mongoose schema validators (min/max, custom) run on updates.
 
 **Models** (`backend/models/`): `Book`, `Article`, `BookLog`, `ArticleLog`. `BookLog` references a `Book`; `ArticleLog` references an `Article`.
+
+- `Book`: title (required), author, yearPublished (required), pages (required, min 1), genreTag (0–99 integer)
+- `Article`: title (required), url (required, unique, normalized), author, outlet, length in minutes (required, integer ≥ 0), datePublished, genreTag (0–99 integer)
+- `BookLog`: book ref (required), currentPage (required), finished (bool, default false), date, readLength (auto-calculated in controller as currentPage − previous currentPage)
+- `ArticleLog`: article ref (required), date, readLength, notes, favorite (bool)
+
+**Controllers** (`backend/controllers/`): `books.js`, `articles.js`, `bookLogs.js`, `articleLogs.js`. Book and article DELETE handlers cascade-delete their associated logs. `bookLogs` POST validates that currentPage > 0 and > the previous log's currentPage for that book.
 
 **Config**: `backend/.env` holds `PORT`, `MONGODB_URI`, and `TEST_MONGODB_URI`. Environment switching is handled in `backend/utils/config.js`.
