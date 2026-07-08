@@ -47,7 +47,12 @@ app.use('/api/articles', middleware.userExtractor, articlesRouter);
 app.use('/api/articlelogs', middleware.userExtractor, articleLogsRouter);
 app.use('/api/booklogs', middleware.userExtractor, bookLogsRouter);
 
-app.use(middleware.unknownEndpoint);
+app.use('/api', middleware.unknownEndpoint);
+
+app.get(/^(?!\/api).*/, (request, response) => {
+  response.sendFile('index.html', { root: 'dist' });
+});
+
 app.use(middleware.errorHandler);
 
 module.exports = app;
