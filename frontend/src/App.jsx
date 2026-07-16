@@ -4,7 +4,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import './App.css';
 import Library from './components/Library';
-import LogBook from './components/Logbook';
+import LogBook from './components/LogBook';
 import StatsDisplay from './components/StatsDisplay';
 import { initializeBooks } from './reducers/bookReducer';
 import { initializeArticles } from './reducers/articleReducer';
