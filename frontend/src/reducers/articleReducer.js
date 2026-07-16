@@ -7,9 +7,11 @@ import {
   deleteLogsForArticle,
 } from './articleLogReducer';
 
+const initialState = [];
+
 const articleSlice = createSlice({
   name: 'articles',
-  initialState: [],
+  initialState,
   reducers: {
     articlesReset() {
       return initialState;

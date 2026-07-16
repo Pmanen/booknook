@@ -15,7 +15,12 @@ import '../App.css';
 import { removeBook } from '../reducers/bookReducer';
 import { removeArticle } from '../reducers/articleReducer';
 import { deweyText } from '../utils/deweyTags';
-import { SORT_OPTIONS, DEFAULT_FILTERS, sortLibrary, applyFilters } from '../utils/libraryFilters';
+import {
+  SORT_OPTIONS,
+  DEFAULT_FILTERS,
+  sortLibrary,
+  applyFilters,
+} from '../utils/libraryFilters';
 
 const SortDropdown = ({ value, onChange }) => {
   const [open, setOpen] = useState(false);
@@ -41,7 +46,9 @@ const SortDropdown = ({ value, onChange }) => {
           {currentLabel}
         </span>
         <span className="flex items-center bg-red-800 px-2 text-white">
-          <FiChevronDown className={`transition-transform duration-150 ${open ? 'rotate-180' : ''}`} />
+          <FiChevronDown
+            className={`transition-transform duration-150 ${open ? 'rotate-180' : ''}`}
+          />
         </span>
       </button>
       {open && (
@@ -50,9 +57,14 @@ const SortDropdown = ({ value, onChange }) => {
             <li key={opt.value}>
               <button
                 className={`w-full px-3 py-1.5 text-left text-sm hover:bg-neutral-100 ${
-                  opt.value === value ? 'font-semibold text-red-800' : 'text-neutral-700'
+                  opt.value === value
+                    ? 'font-semibold text-red-800'
+                    : 'text-neutral-700'
                 }`}
-                onClick={() => { onChange(opt.value); setOpen(false); }}
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
               >
                 {opt.label}
               </button>
@@ -90,11 +102,11 @@ const BookEntry = ({ book }) => {
         <div>
           <FiBook className="mr-1 inline align-middle text-sm text-black" />
           {book.author}, &ldquo;{book.title}&rdquo;.
-          <span className="relative group cursor-default inline-block">
+          <span className="group relative inline-block cursor-default">
             <span className="rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
               {book.genreTag}
             </span>
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-10">
+            <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 rounded bg-gray-800 px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
               {deweyText(book.genreTag)}
             </span>
           </span>
@@ -146,7 +158,10 @@ const ArticleEntry = ({ article }) => {
         <DropdownMenu items={menuItems} />
       </div>
       {activeForm && (
-        <EditArticleForm article={article} onClose={() => setActiveForm(false)} />
+        <EditArticleForm
+          article={article}
+          onClose={() => setActiveForm(false)}
+        />
       )}
     </li>
   );
@@ -163,7 +178,9 @@ const Library = () => {
   const [visibleBookForm, setVisibleBookForm] = useState(false);
   const showBookFormWhenVisible = { display: visibleBookForm ? '' : 'none' };
   const [visibleArticleForm, setVisibleArticleForm] = useState(false);
-  const showArticleFormWhenVisible = { display: visibleArticleForm ? '' : 'none' };
+  const showArticleFormWhenVisible = {
+    display: visibleArticleForm ? '' : 'none',
+  };
 
   const combinedLibrary = books.concat(articles);
   const sortedLibrary = sortLibrary(combinedLibrary, sortKey);
@@ -171,7 +188,9 @@ const Library = () => {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h2 className="my-6 text-center text-4xl font-semibold text-red-800">Library</h2>
+      <h2 className="my-6 text-center text-4xl font-semibold text-red-800">
+        Library
+      </h2>
       <CurrentlyReading />
       <div className="mt-6">
         <h3 className="my-3 text-center text-2xl font-semibold text-amber-700">
@@ -179,17 +198,31 @@ const Library = () => {
         </h3>
         <div className="flex gap-4">
           <button
-            onClick={() => { setVisibleBookForm(!visibleBookForm); setVisibleArticleForm(false); }}
+            onClick={() => {
+              setVisibleBookForm(!visibleBookForm);
+              setVisibleArticleForm(false);
+            }}
             className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
           >
-            {visibleBookForm ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
+            {visibleBookForm ? (
+              <AiOutlineMinus className="text-lg" />
+            ) : (
+              <AiOutlinePlus className="text-lg" />
+            )}
             Add book
           </button>
           <button
-            onClick={() => { setVisibleArticleForm(!visibleArticleForm); setVisibleBookForm(false); }}
+            onClick={() => {
+              setVisibleArticleForm(!visibleArticleForm);
+              setVisibleBookForm(false);
+            }}
             className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
           >
-            {visibleArticleForm ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
+            {visibleArticleForm ? (
+              <AiOutlineMinus className="text-lg" />
+            ) : (
+              <AiOutlinePlus className="text-lg" />
+            )}
             Add read article
           </button>
         </div>
@@ -207,13 +240,17 @@ const Library = () => {
         </div>
 
         {filteredLibrary.length === 0 ? (
-          <p className="italic text-neutral-500">No results with active filters</p>
+          <p className="text-neutral-500 italic">
+            No results with active filters
+          </p>
         ) : (
           <ul>
             {filteredLibrary.map(document =>
-              document.pages
-                ? <BookEntry key={document.id} book={document} />
-                : <ArticleEntry key={document.id} article={document} />
+              document.pages ? (
+                <BookEntry key={document.id} book={document} />
+              ) : (
+                <ArticleEntry key={document.id} article={document} />
+              )
             )}
           </ul>
         )}

@@ -12,38 +12,50 @@ const getPublishDate = item => {
 const nullsLast = (getVal, cmp) => (a, b) => {
   const va = getVal(a);
   const vb = getVal(b);
-  if (va == null && vb == null) return 0;
-  if (va == null) return 1;
-  if (vb == null) return -1;
+  if (va === null && vb === null) return 0;
+  if (va === null) return 1;
+  if (vb === null) return -1;
   return cmp(va, vb);
 };
 
 const sortFns = {
-  'latest-added':   (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded),
+  'latest-added': (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded),
   'earliest-added': (a, b) => new Date(a.dateAdded) - new Date(b.dateAdded),
-  'author-az':   nullsLast(item => item.author || null,  (a, b) => a.localeCompare(b)),
-  'title-az':    (a, b) => a.title.localeCompare(b.title),
-  'length-asc':  (a, b) => getLength(a) - getLength(b),
+  'author-az': nullsLast(
+    item => item.author || null,
+    (a, b) => a.localeCompare(b)
+  ),
+  'title-az': (a, b) => a.title.localeCompare(b.title),
+  'length-asc': (a, b) => getLength(a) - getLength(b),
   'length-desc': (a, b) => getLength(b) - getLength(a),
-  'publish-asc':  nullsLast(getPublishDate, (a, b) => a - b),
+  'publish-asc': nullsLast(getPublishDate, (a, b) => a - b),
   'publish-desc': nullsLast(getPublishDate, (a, b) => b - a),
-  'genre-asc':  nullsLast(item => item.genreTag ?? null, (a, b) => a - b),
-  'genre-desc': nullsLast(item => item.genreTag ?? null, (a, b) => b - a),
-  'outlet-az':  nullsLast(item => item.outlet || null,   (a, b) => a.localeCompare(b)),
+  'genre-asc': nullsLast(
+    item => item.genreTag ?? null,
+    (a, b) => a - b
+  ),
+  'genre-desc': nullsLast(
+    item => item.genreTag ?? null,
+    (a, b) => b - a
+  ),
+  'outlet-az': nullsLast(
+    item => item.outlet || null,
+    (a, b) => a.localeCompare(b)
+  ),
 };
 
 export const SORT_OPTIONS = [
-  { value: 'latest-added',   label: 'Latest added' },
+  { value: 'latest-added', label: 'Latest added' },
   { value: 'earliest-added', label: 'Earliest added' },
-  { value: 'author-az',      label: 'Author A–Z' },
-  { value: 'title-az',       label: 'Title A–Z' },
-  { value: 'length-asc',     label: 'Length: low to high' },
-  { value: 'length-desc',    label: 'Length: high to low' },
-  { value: 'publish-asc',    label: 'Publish date: earliest first' },
-  { value: 'publish-desc',   label: 'Publish date: latest first' },
-  { value: 'genre-asc',      label: 'Genre: 0 to 99' },
-  { value: 'genre-desc',     label: 'Genre: 99 to 0' },
-  { value: 'outlet-az',      label: 'Outlet A–Z' },
+  { value: 'author-az', label: 'Author A–Z' },
+  { value: 'title-az', label: 'Title A–Z' },
+  { value: 'length-asc', label: 'Length: low to high' },
+  { value: 'length-desc', label: 'Length: high to low' },
+  { value: 'publish-asc', label: 'Publish date: earliest first' },
+  { value: 'publish-desc', label: 'Publish date: latest first' },
+  { value: 'genre-asc', label: 'Genre: 0 to 99' },
+  { value: 'genre-desc', label: 'Genre: 99 to 0' },
+  { value: 'outlet-az', label: 'Outlet A–Z' },
 ];
 
 export const DEFAULT_FILTERS = {
@@ -67,13 +79,15 @@ export const getBooksWithProgressIds = bookLogs =>
 export const applyFilters = (library, filters, bookLogs) => {
   let result = library;
 
-  if (!filters.includeBooks)    result = result.filter(item => !isBook(item));
+  if (!filters.includeBooks) result = result.filter(item => !isBook(item));
   if (!filters.includeArticles) result = result.filter(item => isBook(item));
 
   if (filters.genreGroups.length > 0) {
     result = result.filter(item => {
-      if (item.genreTag == null) return false;
-      return filters.genreGroups.some(g => item.genreTag >= g && item.genreTag < g + 10);
+      if (item.genreTag === null) return false;
+      return filters.genreGroups.some(
+        g => item.genreTag >= g && item.genreTag < g + 10
+      );
     });
   }
 

@@ -7,7 +7,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const middleware = require('./utils/middleware');
 
-const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const booksRouter = require('./controllers/books');
 const articlesRouter = require('./controllers/articles');

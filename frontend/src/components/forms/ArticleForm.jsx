@@ -47,7 +47,8 @@ const ArticleForm = () => {
 
   const fieldClass =
     'w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:border-red-800 focus:outline-none';
-  const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
+  const labelClass =
+    'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
 
   return (
     <div className="mb-6 rounded border border-gray-200 bg-neutral-50 p-5">
@@ -83,7 +84,9 @@ const ArticleForm = () => {
           <input {...lengthInput.input} className={fieldClass} />
         </div>
         <div>
-          <label className={labelClass}>Genre tag <span className="text-red-800">*</span></label>
+          <label className={labelClass}>
+            Genre tag <span className="text-red-800">*</span>
+          </label>
           <input {...genreTagInput.input} className={fieldClass} />
         </div>
         <div className="flex items-center pt-5">

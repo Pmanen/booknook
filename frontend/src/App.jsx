@@ -16,8 +16,8 @@ import { setUser, resetUser } from './reducers/sessionReducer';
 
 const App = () => {
   const user = useSelector(state => state.session.username);
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -28,15 +28,15 @@ const App = () => {
       dispatch(initializeBooks());
       dispatch(initializeArticles());
       dispatch(initializeArticleLogs());
-      dispatch(initializeBookLogs()); 
+      dispatch(initializeBookLogs());
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBooknookUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      dispatch(setUser(user.username))
+      dispatch(setUser(user.username));
       tokenService.initializeToken();
     }
   }, [dispatch]);
@@ -48,17 +48,17 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem('loggedBooknookUser', JSON.stringify(user));
       dispatch(setUser(user.username));
-      tokenService.setToken(user.token)
+      tokenService.setToken(user.token);
       setUsername('');
       setPassword('');
     } catch {
-      console.log('Login failed: wrong credentials')
+      console.log('Login failed: wrong credentials');
     }
   };
 
   const logout = () => {
     window.localStorage.removeItem('loggedBooknookUser');
-    dispatch(resetUser())
+    dispatch(resetUser());
   };
 
   const fieldClass =
@@ -70,7 +70,9 @@ const App = () => {
     return (
       <div className="flex min-h-screen items-center justify-center bg-neutral-100">
         <div className="w-80 rounded border border-gray-200 bg-neutral-50 p-8">
-          <h2 className="mb-6 text-center text-3xl font-semibold text-red-800">Booknook</h2>
+          <h2 className="mb-6 text-center text-3xl font-semibold text-red-800">
+            Booknook
+          </h2>
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <div>
               <label className={labelClass}>Username</label>
@@ -102,45 +104,41 @@ const App = () => {
         </div>
       </div>
     );
-  }
+  } else
+    return (
+      <div className="bg-neutral-100 p-8">
+        <div className="mb-6 flex h-8 items-center justify-center gap-4 text-gray-700">
+          <Link
+            to="/library"
+            className={isActive('/library') ? 'underline' : 'hover:underline'}
+          >
+            Library
+          </Link>
+          <Link
+            to="/log"
+            className={isActive('/log') ? 'underline' : 'hover:underline'}
+          >
+            Logbook
+          </Link>
+          <Link
+            to="/stats"
+            className={isActive('/stats') ? 'underline' : 'hover:underline'}
+          >
+            Stats
+          </Link>
+          <button onClick={logout} className="rounded hover:underline">
+            Logout
+          </button>
+        </div>
 
-  else return (
-    <div className="bg-neutral-100 p-8">
-      <div className="mb-6 flex h-8 items-center justify-center gap-4 text-gray-700">
-        <Link
-          to="/library"
-          className={isActive('/library') ? 'underline' : 'hover:underline'}
-        >
-          Library
-        </Link>
-        <Link
-          to="/log"
-          className={isActive('/log') ? 'underline' : 'hover:underline'}
-        >
-          Logbook
-        </Link>
-        <Link
-          to="/stats"
-          className={isActive('/stats') ? 'underline' : 'hover:underline'}
-        >
-          Stats
-        </Link>
-        <button
-          onClick={logout}
-          className="rounded hover:underline"
-        >
-          Logout
-        </button>
+        <Routes>
+          <Route path="/" element={<Library />} />
+          <Route path="/stats" element={<StatsDisplay />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/log" element={<LogBook />} />
+        </Routes>
       </div>
-
-      <Routes>
-        <Route path="/" element={<Library />} />
-        <Route path="/stats" element={<StatsDisplay />} />
-        <Route path="/library" element={<Library />} />
-        <Route path="/log" element={<LogBook />} />
-      </Routes>
-    </div>
-  );
+    );
 };
 
 export default App;

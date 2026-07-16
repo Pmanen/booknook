@@ -12,7 +12,10 @@ const create = async newObject => {
 };
 
 const update = async updatedObject => {
-  const response = await axiosInstance.put(`${baseUrl}/${updatedObject.id}`, updatedObject);
+  const response = await axiosInstance.put(
+    `${baseUrl}/${updatedObject.id}`,
+    updatedObject
+  );
   return response.data;
 };
 

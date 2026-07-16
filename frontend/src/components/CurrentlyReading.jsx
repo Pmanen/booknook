@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt } from 'react-icons/fa';
 import { appendBookLog } from '../reducers/bookLogReducer';
 import { deweyLabel } from '../utils/deweyTags';
 
@@ -87,14 +87,17 @@ const BookStatusItem = ({ log }) => {
   };
 
   return (
-    <div className="mx-auto max-w-150 my-4 px-5 py-4 border border-gray-200 shadow-sm rounded-lg bg-gray-50">
+    <div className="mx-auto my-4 max-w-150 rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 shadow-sm">
       <h3 className="font-semibold">{log.book.title}</h3>
-      <p className="mt-0.5 text-sm italic text-gray-500">
-        {log.book.author} · {log.book.yearPublished} · {deweyLabel(log.book.genreTag)}
+      <p className="mt-0.5 text-sm text-gray-500 italic">
+        {log.book.author} · {log.book.yearPublished} ·{' '}
+        {deweyLabel(log.book.genreTag)}
       </p>
 
       <div className="mt-3 flex items-center gap-2 text-sm text-gray-700">
-        <span>p. {log.currentPage} / {log.book.pages}</span>
+        <span>
+          p. {log.currentPage} / {log.book.pages}
+        </span>
         <span className="text-gray-400">({Math.round(log.percentRead)}%)</span>
         <button onClick={toggleVisibility}>
           <FaPencilAlt className="ml-0.5 inline align-middle text-xs text-red-800 opacity-60 hover:opacity-100" />
@@ -111,12 +114,18 @@ const BookStatusItem = ({ log }) => {
               value={updatePage}
               onChange={({ target }) => setUpdatePage(target.value)}
             />
-            <button type="submit" className="text-xs text-gray-500 underline hover:text-gray-800">
+            <button
+              type="submit"
+              className="text-xs text-gray-500 underline hover:text-gray-800"
+            >
               update
             </button>
           </form>
 
-          <form onSubmit={handlePercentageUpdate} className="flex items-center gap-1.5">
+          <form
+            onSubmit={handlePercentageUpdate}
+            className="flex items-center gap-1.5"
+          >
             <label className="text-xs text-gray-400">%</label>
             <input
               className="w-14 rounded border border-gray-300 px-2 py-0.5 text-center text-sm"
@@ -124,7 +133,10 @@ const BookStatusItem = ({ log }) => {
               value={updatePercentage}
               onChange={({ target }) => setUpdatePercentage(target.value)}
             />
-            <button type="submit" className="text-xs text-gray-500 underline hover:text-gray-800">
+            <button
+              type="submit"
+              className="text-xs text-gray-500 underline hover:text-gray-800"
+            >
               update
             </button>
           </form>
@@ -137,10 +149,11 @@ const BookStatusItem = ({ log }) => {
           >
             Mark finished
           </button>
-          <div style={showWhenConfirming} className="mt-2 rounded border border-red-800/40 bg-red-50 p-3 flex gap-2">
-            <p className="self-center text-sm text-gray-900 mr-3">
-              Sure?
-            </p>
+          <div
+            style={showWhenConfirming}
+            className="mt-2 flex gap-2 rounded border border-red-800/40 bg-red-50 p-3"
+          >
+            <p className="mr-3 self-center text-sm text-gray-900">Sure?</p>
             <button
               onClick={handleFinished}
               className="rounded border border-red-800/40 px-3 py-1 text-xs tracking-wide text-red-800 hover:bg-red-800/5"
@@ -169,7 +182,9 @@ const CurrentlyReading = () => {
 
   return (
     <div>
-      <h3 className="my-3 text-2xl text-center font-semibold text-amber-700">Currently reading</h3>
+      <h3 className="my-3 text-center text-2xl font-semibold text-amber-700">
+        Currently reading
+      </h3>
       {recentBooks.map(log => (
         <BookStatusItem key={log.id} log={log} />
       ))}

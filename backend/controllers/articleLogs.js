@@ -1,5 +1,4 @@
 const articleLogsRouter = require('express').Router();
-const { request } = require('../app');
 const ArticleLog = require('../models/articleLog');
 
 articleLogsRouter.get('/', async (request, response) => {

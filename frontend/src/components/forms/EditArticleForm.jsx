@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useField } from '../../hooks/useField';
 import { useDispatch } from 'react-redux';
 
@@ -17,7 +16,7 @@ const EditArticleForm = ({ article, onClose }) => {
   const lengthInput = useField('number', Number(article.length));
   const genreTagInput = useField('text', article.genreTag);
 
-  const compareArticles = (newArticle) => {
+  const compareArticles = newArticle => {
     return (
       newArticle.title === article.title &&
       newArticle.author === article.author &&

@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import bookService from '../services/books';
 import { appendBookLog, updateBookInLogs } from './bookLogReducer';
 
+const initialState = [];
+
 const bookSlice = createSlice({
   name: 'books',
-  initialState: [],
+  initialState,
   reducers: {
     booksReset() {
       return initialState;
@@ -40,7 +42,10 @@ export const removeBook = id => {
       await bookService.remove(id);
       dispatch(deleteBook(id));
     } catch (error) {
-      console.error('Error deleting book:', error.response ? error.response.data : error.message);
+      console.error(
+        'Error deleting book:',
+        error.response ? error.response.data : error.message
+      );
     }
   };
 };
@@ -52,7 +57,10 @@ export const modifyBook = book => {
       dispatch(updateBook(updatedBook));
       dispatch(updateBookInLogs(updatedBook));
     } catch (error) {
-      console.error('Error updating book:', error.response ? error.response.data : error.message);
+      console.error(
+        'Error updating book:',
+        error.response ? error.response.data : error.message
+      );
     }
   };
 };

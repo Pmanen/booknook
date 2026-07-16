@@ -29,7 +29,10 @@ const DropdownMenu = ({ items }) => {
           {items.map(item => (
             <li key={item.label}>
               <button
-                onClick={() => { item.onClick(); setOpen(false); }}
+                onClick={() => {
+                  item.onClick();
+                  setOpen(false);
+                }}
                 className={`w-full px-4 py-2 text-left text-sm hover:bg-neutral-100 ${item.danger ? 'text-red-700 hover:bg-red-50' : 'text-gray-700'}`}
               >
                 {item.label}

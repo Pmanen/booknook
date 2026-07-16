@@ -39,31 +39,47 @@ const FilterLibraryForm = ({ onApply }) => {
         onClick={() => setOpen(o => !o)}
         className="flex items-center gap-1.5 text-sm font-semibold text-red-800 hover:text-red-600"
       >
-        {open
-          ? <FiChevronDown className="text-base" />
-          : <FiChevronRight className="text-base" />}
+        {open ? (
+          <FiChevronDown className="text-base" />
+        ) : (
+          <FiChevronRight className="text-base" />
+        )}
         Filter library
       </button>
 
       {open && (
         <div className="mt-2 rounded border border-neutral-200 bg-neutral-50 p-4">
           <div className="mb-3">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">Show</p>
+            <p className="mb-1.5 text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+              Show
+            </p>
             <div className="flex gap-2">
-              <button onClick={() => toggle('includeBooks')} className={toggleBtn(draft.includeBooks)}>
+              <button
+                onClick={() => toggle('includeBooks')}
+                className={toggleBtn(draft.includeBooks)}
+              >
                 Books
               </button>
-              <button onClick={() => toggle('includeArticles')} className={toggleBtn(draft.includeArticles)}>
+              <button
+                onClick={() => toggle('includeArticles')}
+                className={toggleBtn(draft.includeArticles)}
+              >
                 Articles
               </button>
             </div>
           </div>
 
           <div className="mb-3">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">Genre group</p>
+            <p className="mb-1.5 text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+              Genre group
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {GENRE_GROUPS.map(g => (
-                <button key={g} onClick={() => toggleGenre(g)} className={genreBtn(draft.genreGroups.includes(g))}>
+                <button
+                  key={g}
+                  onClick={() => toggleGenre(g)}
+                  className={genreBtn(draft.genreGroups.includes(g))}
+                >
                   {String(g).padStart(2, '0')}
                 </button>
               ))}
@@ -71,23 +87,35 @@ const FilterLibraryForm = ({ onApply }) => {
           </div>
 
           <div className="mb-3">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">Outlet</p>
+            <p className="mb-1.5 text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+              Outlet
+            </p>
             <input
               type="text"
               value={draft.outlet}
-              onChange={e => setDraft(prev => ({ ...prev, outlet: e.target.value }))}
+              onChange={e =>
+                setDraft(prev => ({ ...prev, outlet: e.target.value }))
+              }
               placeholder="Filter by outlet…"
               className="w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-sm focus:border-red-800 focus:outline-none"
             />
           </div>
 
           <div className="mb-4">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">Special filters</p>
+            <p className="mb-1.5 text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+              Special filters
+            </p>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => toggle('finished')} className={toggleBtn(draft.finished)}>
+              <button
+                onClick={() => toggle('finished')}
+                className={toggleBtn(draft.finished)}
+              >
                 Finished
               </button>
-              <button onClick={() => toggle('hasProgress')} className={toggleBtn(draft.hasProgress)}>
+              <button
+                onClick={() => toggle('hasProgress')}
+                className={toggleBtn(draft.hasProgress)}
+              >
                 Has reading progress
               </button>
             </div>

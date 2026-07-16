@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import articleLogService from '../services/articleLogs';
 
+const initialState = [];
+
 const articleLogSlice = createSlice({
   name: 'articleLogs',
-  initialState: [],
+  initialState,
   reducers: {
     articleLogsReset() {
       return initialState;

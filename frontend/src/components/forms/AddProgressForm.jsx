@@ -4,17 +4,23 @@ import { appendBookLog } from '../../reducers/bookLogReducer';
 
 const AddProgressForm = ({ book, onClose }) => {
   const dispatch = useDispatch();
-  const recentLog = useSelector(state => state.bookLogs.findLast(log => log.book.id === book.id));
-  const [currentPage, setCurrentPage] = useState(recentLog ? String(recentLog.currentPage) : '');
+  const recentLog = useSelector(state =>
+    state.bookLogs.findLast(log => log.book.id === book.id)
+  );
+  const [currentPage, setCurrentPage] = useState(
+    recentLog ? String(recentLog.currentPage) : ''
+  );
 
   const handleSubmit = event => {
     event.preventDefault();
     const page = Math.min(Number(currentPage), book.pages);
-    dispatch(appendBookLog({
-      book: book.id,
-      currentPage: page,
-      finished: page >= book.pages,
-    }));
+    dispatch(
+      appendBookLog({
+        book: book.id,
+        currentPage: page,
+        finished: page >= book.pages,
+      })
+    );
     onClose();
   };
 
@@ -24,7 +30,7 @@ const AddProgressForm = ({ book, onClose }) => {
     'mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500';
 
   return (
-    <div className="mt-2 max-w-xs ml-auto rounded border border-gray-200 bg-neutral-50 p-4">
+    <div className="mt-2 ml-auto max-w-xs rounded border border-gray-200 bg-neutral-50 p-4">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3">
         <div>
           <label className={labelClass}>

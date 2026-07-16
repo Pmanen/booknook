@@ -58,7 +58,9 @@ const Entry = props => {
   if (props.article) {
     return (
       <div className="mb-3 p-1">
-        {props.favorite && <FaStar className="mr-1 inline align-middle text-sm text-yellow-500" />}
+        {props.favorite && (
+          <FaStar className="mr-1 inline align-middle text-sm text-yellow-500" />
+        )}
         {props.article.author}{' '}
         {props.article.outlet && `(${props.article.outlet})`} - "
         <a href={props.article.url} target="_blank" rel="noopener.noreferrer">
@@ -68,7 +70,12 @@ const Entry = props => {
         <span className="mx-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
           {props.article.genreTag}
         </span>
-        <button onClick={() => setIsEditing(!isEditing)} className="text-xs text-gray-500 underline hover:text-gray-800">edit</button>
+        <button
+          onClick={() => setIsEditing(!isEditing)}
+          className="text-xs text-gray-500 underline hover:text-gray-800"
+        >
+          edit
+        </button>
         {isEditing && (
           <EditArticleLogForm log={props} onClose={() => setIsEditing(false)} />
         )}
@@ -83,21 +90,22 @@ const Entry = props => {
       </div>
     );
   } else {
-    const isRecent = Date.now() - new Date(props.date).getTime() <= THIRTY_DAYS_MS;
+    const isRecent =
+      props.now - new Date(props.date).getTime() <= THIRTY_DAYS_MS;
     const showDelete = isRecent && props.isLatestForBook;
 
     return (
       <div className="mb-3 p-1">
         <FaBookOpen className="mr-1 inline align-middle text-sm text-black" />{' '}
         {props.book.author} - "{props.book.title}".{' '}
-        <span className="relative group cursor-default inline-block">
-            <span className="rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
-              {props.book.genreTag}
-            </span>
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-10">
-              {deweyText(props.book.genreTag)}
-            </span>
+        <span className="group relative inline-block cursor-default">
+          <span className="rounded-full px-2 py-0.5 text-xs font-semibold text-red-800">
+            {props.book.genreTag}
           </span>
+          <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 rounded bg-gray-800 px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+            {deweyText(props.book.genreTag)}
+          </span>
+        </span>
         {showDelete && (
           <button
             onClick={() => dispatch(removeBookLog(props.id))}
@@ -107,7 +115,8 @@ const Entry = props => {
           </button>
         )}
         <p className="mt-1 text-sm text-gray-700 italic">
-          Pages read: {props.readLength}, current page: {props.finished ? 'finished!' : props.currentPage}
+          Pages read: {props.readLength}, current page:{' '}
+          {props.finished ? 'finished!' : props.currentPage}
         </p>
         {props.notes && (
           <p className="mx-3 mt-2 text-sm text-gray-900">
@@ -122,6 +131,7 @@ const Entry = props => {
 const LogBook = () => {
   const articleLogs = useSelector(state => state.articleLogs);
   const bookLogs = useSelector(state => state.bookLogs);
+  const [now] = useState(() => Date.now());
 
   const [visible, setVisible] = useState(false);
   const showWhenVisible = { display: visible ? '' : 'none' };
@@ -155,7 +165,11 @@ const LogBook = () => {
         onClick={toggleVisibility}
         className="mb-4 flex items-center gap-0.5 rounded border-2 border-red-800 bg-neutral-100 px-4 py-1 font-semibold text-red-800 hover:bg-red-700 hover:text-white"
       >
-        {visible ? <AiOutlineMinus className="text-lg" /> : <AiOutlinePlus className="text-lg" />}
+        {visible ? (
+          <AiOutlineMinus className="text-lg" />
+        ) : (
+          <AiOutlinePlus className="text-lg" />
+        )}
         Add article
       </button>
       <div style={showWhenVisible}>
@@ -165,7 +179,12 @@ const LogBook = () => {
         <div className="mt-4" key={group.date}>
           <h3 className="text-lg font-bold text-amber-700">{group.date}</h3>
           {group.entries.map(entry => (
-            <Entry key={entry.id} {...entry} isLatestForBook={latestBookLogIds.has(entry.id)} />
+            <Entry
+              key={entry.id}
+              {...entry}
+              now={now}
+              isLatestForBook={latestBookLogIds.has(entry.id)}
+            />
           ))}
         </div>
       ))}

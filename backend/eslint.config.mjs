@@ -1,9 +1,10 @@
-import globals from 'globals'
-import js from '@eslint/js'
-import stylisticJs from '@stylistic/eslint-plugin'
+import globals from 'globals';
+import js from '@eslint/js';
+import stylisticJs from '@stylistic/eslint-plugin';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 
 export default [
-  js.configs .recommended,
+  js.configs.recommended,
   {
     files: ['**/*.js'],
     languageOptions: {
@@ -14,7 +15,7 @@ export default [
     plugins: {
       '@stylistic/js': stylisticJs,
     },
-    rules: { 
+    rules: {
       '@stylistic/js/indent': ['error', 2],
       '@stylistic/js/linebreak-style': ['error', 'unix'],
       '@stylistic/js/quotes': ['error', 'single'],
@@ -24,9 +25,10 @@ export default [
       'object-curly-spacing': ['error', 'always'],
       'arrow-spacing': ['error', { before: true, after: true }],
       'no-console': 'off',
-    }, 
+    },
   },
   {
     ignores: ['dist/**'],
-  }
-]
+  },
+  eslintConfigPrettier,
+];

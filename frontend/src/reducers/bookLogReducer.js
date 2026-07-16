@@ -27,7 +27,8 @@ const bookLogSlice = createSlice({
   },
 });
 
-const { setBookLogs, createBookLog, deleteBookLog, updateBookInLogs } = bookLogSlice.actions;
+const { setBookLogs, createBookLog, deleteBookLog, updateBookInLogs } =
+  bookLogSlice.actions;
 
 export { deleteBookLog, updateBookInLogs };
 
